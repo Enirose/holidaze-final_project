@@ -13,18 +13,18 @@ export default function Footer () {
                 <Row>
                 <Column>
                     <Heading>About Us</Heading>
-                    <FooterLink href="#">Aim</FooterLink>
+                    <FooterLink href="#">...</FooterLink>
                     <FooterLink href="#">Vision</FooterLink>
                 </Column>
                 <Column>
                     <Heading>Services</Heading>
-                    <FooterLink href="#">Writing</FooterLink>
-                    <FooterLink href="#">Internships</FooterLink>
+                    <FooterLink href="#">..</FooterLink>
+                    <FooterLink href="#">...</FooterLink>
                 </Column>
                 <Column>
                     <Heading>Contact Us</Heading>
-                    <FooterLink href="#">Uttar Pradesh</FooterLink>
-                    <FooterLink href="#">Ahemdabad</FooterLink>
+                    <FooterLink href="#">U..</FooterLink>
+                    <FooterLink href="#">A...</FooterLink>
                 </Column>
                 <Column>
                     <Heading>Social Media</Heading>
