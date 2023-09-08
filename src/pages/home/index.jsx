@@ -49,9 +49,9 @@ export default function HomePage () {
                                 <Card.Img variant="top" onError={ifNoImage} src={venue.media[0]} alt={venue.name} className="mb-4 d-block h-10 "/>
                                 <Card.Body>
                                     <Card.Title>{venue.name}</Card.Title>
-                                    <Card.Text>{venue.location.country}
-                                    </Card.Text>
-                                    <Link to={`/venue/${venue.id}`}><Button variant="primary">Go somewhere</Button></Link>
+                                    <Card.Text>{venue.location.country}</Card.Text>
+                                    <Card.Text>{venue.price} kr/night</Card.Text>
+                                    <Link to={`/venue/${venue.id}`}><Button variant="primary">Check availability</Button></Link>
                                 </Card.Body>
                             </Card>
                     ))}                        
