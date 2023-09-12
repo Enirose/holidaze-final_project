@@ -13,6 +13,8 @@ import "../../styles/custom.scss";
             <Nav className="me-auto">
               <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="/">Venues</Nav.Link>
+              <Nav.Link href="/login">Login</Nav.Link>
+              <Nav.Link href="/register">Register</Nav.Link>
             </Nav>
             <Nav.Item>
                 <Image
