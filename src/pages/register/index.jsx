@@ -16,7 +16,7 @@ const Schema = yup.object ({
         .required('Enter your name'),
     email: yup
         .string()
-        .matches(/^[\w\-.]+@stud.noroff.no$/, "Enter an email address")
+        .matches(/^[\w\-.]+@stud.noroff.no$/, "Enter valid email address")
         .required('Enter a valid email address'),
     password: yup
         .string()
@@ -41,7 +41,7 @@ export default function RegisterListener () {
                 alert('Registration failed. Please try again later.');
             }
         } catch (error) {
-            console.error('Error durig registration', error);
+            console.error('Error during registration', error);
             alert('Registration failed. Please try again later.');
         }
     }
