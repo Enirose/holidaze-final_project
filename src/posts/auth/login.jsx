@@ -21,7 +21,7 @@ export async function LoginUser(profile, onSuccess, onError) {
     if (response.ok) {
       // Save token and user profile to localStorage
       storage.save("token", accessToken);
-      storage.save("profile", user);
+      storage.save("user", user);
 
       // Call the onSuccess callback
       onSuccess();

@@ -1,8 +1,16 @@
 import {Container, Nav, Navbar, NavDropdown, Image} from 'react-bootstrap';
 import React from 'react';
 import "../../styles/custom.scss";
+import SignOut from '../../posts/auth/logout';
+import { remove } from '../localStorage';
 
  export default function NavContainer() {
+
+  const handleLogout = () => {
+    remove('user');
+    remove('token');
+  }
+
   return (
     <div>
       <Navbar expand="lg" className="bg-body-tertiary">
@@ -22,13 +30,13 @@ import "../../styles/custom.scss";
                   roundedCircle
                   width={32}
                   height={32}
-                  alt="Profile"
+                  alt="User Image"
                 />
               </Nav.Item>
             <NavDropdown title="User Profile" id="basic-nav-dropdown" className="custom-dropdown"> 
-                <NavDropdown.Item href="#">Profile</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#">Logout</NavDropdown.Item>
+                <NavDropdown.Item href="/">Profile</NavDropdown.Item>
+                <NavDropdown.Divider/>
+                <NavDropdown.Item onClick={handleLogout}>Logout <SignOut/> </NavDropdown.Item>
               </NavDropdown>
               
           </Navbar.Collapse>
