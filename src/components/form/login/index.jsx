@@ -15,7 +15,7 @@ const Schema = yup.object ({
 });
 
 /**
- * Component for login Form
+ * Components for login Form
  * @returns 
  */
 

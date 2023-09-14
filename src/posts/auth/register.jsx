@@ -1,62 +1,37 @@
-import { registerUrl } from "../../components/constants/constantsUrl";
+import { registerUrl } from '../../components/constants/constantsUrl';
 
+ 
 /**
- * This function sends the registered users info / data to the API
- * Register user data to API
- * @param {string} url
- * @param {object} user
- */
+  * Register user data!
+  * Whether the user is a venue manager (true or false)
+  * @param {*} userData 
+  * @param {boolean} venueManager
+  * @returns 
+  */
 
-
-// export async function RegisterUser(user) {
-//     const method = 'post';
-
-//     try {
-//         const response = await fetch(registerUrl, {
-//             method,
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify(user)
-//         });
-
-//         const result = await response.json();
-
-//         if (response.ok) {
-//             alert('Registration complete');
-//             return result;
-        
-//         } else {
-//             alert('Something went wrong! Please try again!');
-//             return false;
-//         }
-//     } catch (error) {
-//         console.error('Error during registration:', error);
-//         throw error; // Rethrow the error for better error handling
-//     }
-    
-// }
-
-export async function RegisterUser(user) {
+export async function RegisterUser(userData) {
   const method = 'post';
 
   try {
-    const response = await fetch(registerUrl, {
+    const response = await fetch( registerUrl, {
       method,
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify(userData),
     });
 
     if (response.ok) {
-      return true;
+      // Registration successful
+      return { success: true };
     } else {
-      return false;
+      // Registration failed
+      const data = await response.json();
+      console.error('Registration failed:', data);
+      return { success: false, message: data.message || 'Registration failed.' };
     }
   } catch (error) {
     console.error('Error during registration:', error);
-    throw error; // Rethrow the error for better error handling
+    return { success: false, message: 'Registration failed. Please try again later.' };
   }
 }
-
