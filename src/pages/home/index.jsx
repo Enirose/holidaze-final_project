@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 
 export default function HomePage () {
-    const {data, isLoading, isError} =  useApi (venuesUrl);
+    const {data, isLoading, isError} =  useApi (venuesUrl + '?sort=created');
     const [search, setSearch] = useState('');
     const venues = data;
 

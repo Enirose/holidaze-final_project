@@ -32,12 +32,12 @@ import { remove } from '../localStorage';
                   height={32}
                   alt="User Image"
                 />
-              </Nav.Item>
+            </Nav.Item>
             <NavDropdown title="User Profile" id="basic-nav-dropdown" className="custom-dropdown"> 
                 <NavDropdown.Item href="/">Profile</NavDropdown.Item>
                 <NavDropdown.Divider/>
                 <NavDropdown.Item onClick={handleLogout}>Logout <SignOut/> </NavDropdown.Item>
-              </NavDropdown>
+            </NavDropdown>
               
           </Navbar.Collapse>
         </Container>
