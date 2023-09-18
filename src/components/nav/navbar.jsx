@@ -1,8 +1,15 @@
 import {Container, Nav, Navbar, NavDropdown, Image} from 'react-bootstrap';
 import React from 'react';
 import "../../styles/custom.scss";
+import { remove } from '../localStorage';
 
  export default function NavContainer() {
+
+  const handleLogout = () => {
+    remove('user');
+    remove('token');
+  }
+
   return (
     <div>
       <Navbar expand="lg" className="bg-body-tertiary">
@@ -13,6 +20,8 @@ import "../../styles/custom.scss";
             <Nav className="me-auto">
               <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="/">Venues</Nav.Link>
+              <Nav.Link href="/login">Login</Nav.Link>
+              <Nav.Link href="/register">Register</Nav.Link>
             </Nav>
             <Nav.Item>
                 <Image
@@ -20,14 +29,14 @@ import "../../styles/custom.scss";
                   roundedCircle
                   width={32}
                   height={32}
-                  alt="Profile"
+                  alt="User Image"
                 />
-              </Nav.Item>
+            </Nav.Item>
             <NavDropdown title="User Profile" id="basic-nav-dropdown" className="custom-dropdown"> 
-                <NavDropdown.Item href="#">Profile</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#">Logout</NavDropdown.Item>
-              </NavDropdown>
+                <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+                <NavDropdown.Divider/>
+                <NavDropdown.Item onClick={handleLogout}>Logout </NavDropdown.Item>
+            </NavDropdown>
               
           </Navbar.Collapse>
         </Container>

@@ -3,4 +3,4 @@ export const loginUrl = `${baseUrl}/auth/login`;
 export const registerUrl = `${baseUrl}/auth/register`;
 export const venuesUrl = `${baseUrl}/venues`;
 export const bookingUrl = `${baseUrl}/bookings`;
-export const profileUrl = `${baseUrl}/profiles`;
+export const profileUrl = `${baseUrl}/profiles/`;

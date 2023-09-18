@@ -2,15 +2,13 @@ import React, { useState } from "react";
 import useApi from "../../components/hooks/useApi";
 import { venuesUrl } from "../../components/constants/constantsUrl";
 import { Form, Col, Row, Button, Card, Container } from "react-bootstrap";
-import vite from '../../../public/vite.svg'
 import { Link } from "react-router-dom";
 
 
 export default function HomePage () {
-    const {data, isLoading, isError} =  useApi (venuesUrl);
+    const {data, isLoading, isError} =  useApi (venuesUrl + '?sort=created');
     const [search, setSearch] = useState('');
     const venues = data;
-    const ifNoImage = (e) => { e.target.src = vite.src}
 
     if (isLoading) {
         return <div>loader</div>;
@@ -46,7 +44,7 @@ export default function HomePage () {
                         }         
                     }).map((venue) => (
                             <Card key={venue.id}  className="mb-4">
-                                <Card.Img variant="top" onError={ifNoImage} src={venue.media[0]} alt={venue.name} className="mb-4 d-block h-10 "/>
+                                <Card.Img variant="top" src={venue.media[0]} alt={venue.name} className="mb-4 d-block h-10 "/>
                                 <Card.Body>
                                     <Card.Title>{venue.name}</Card.Title>
                                     <Card.Text>{venue.location.country}</Card.Text>
