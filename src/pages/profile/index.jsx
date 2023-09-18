@@ -123,7 +123,7 @@ export default function UserProfileListener() {
           <Button variant="primary" onClick={handleUpdateAvatar}>
                 Update Avatar
               </Button>
-              <Button variant="primary" onClick={handleUpdateAvatar}>
+              <Button variant="primary" onClick={handleCreateVenue}>
                 Create Venue
               </Button>
         </Col>
