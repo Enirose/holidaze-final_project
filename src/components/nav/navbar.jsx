@@ -1,7 +1,6 @@
 import {Container, Nav, Navbar, NavDropdown, Image} from 'react-bootstrap';
 import React from 'react';
 import "../../styles/custom.scss";
-import SignOut from '../../posts/auth/logout';
 import { remove } from '../localStorage';
 
  export default function NavContainer() {
@@ -34,9 +33,9 @@ import { remove } from '../localStorage';
                 />
             </Nav.Item>
             <NavDropdown title="User Profile" id="basic-nav-dropdown" className="custom-dropdown"> 
-                <NavDropdown.Item href="/">Profile</NavDropdown.Item>
+                <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
                 <NavDropdown.Divider/>
-                <NavDropdown.Item onClick={handleLogout}>Logout <SignOut/> </NavDropdown.Item>
+                <NavDropdown.Item onClick={handleLogout}>Logout </NavDropdown.Item>
             </NavDropdown>
               
           </Navbar.Collapse>

@@ -7,6 +7,7 @@ import HomePage from "./pages/home"
 import SpecificVenue from "./pages/venue";
 import RegisterListener from "./pages/register";
 import LoginPage from "./pages/login"
+import UserProfile from "./pages/profile"
 
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
                 <Route path="/register" element={<RegisterListener/>} />
                 <Route path="/login" element={<LoginPage/>} />
                 <Route path="/venue/:id" element={<SpecificVenue/>} />
+                <Route path="/profile" element={<UserProfile/>} />
               </Route>
             </Route>
           </Routes>
