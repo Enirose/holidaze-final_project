@@ -21,6 +21,8 @@ export default function LoginPage() {
 
                 // Redirect to the profile page or the desired URL
                 navigate("/"); 
+                // After successful login, refresh the page
+                window.location.reload();
                 },
                 (errorMessage) => {
                 // Callback function for login error
