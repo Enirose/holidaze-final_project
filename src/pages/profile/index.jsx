@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button, Card, Modal, Form } from 'react-bootstrap';
 import { FetchUserProfile } from '../../posts/getProfile';
-import { UpdateAvatar } from '../../posts/editAvatar';
+import { EditAvatar} from '../../posts/editAvatar';
 import { load, save } from '../../components/localStorage';
 
 // // Custom function to set data in local storage
@@ -66,8 +66,9 @@ export default function UserProfileListener() {
 
     // Simulate updating the avatar (Replace this with your actual API call)
     try {
-      // Assuming UpdateAvatar is an async function that updates the user's avatar
-      const success = await UpdateAvatar(avatarUrl);
+      // Assuming EditAvatar is an async function that updates the user's avatar
+      const token = load('token')
+      const success = await EditAvatar (avatarUrl, token);
 
       if (success) {
         // Update the user's avatar and close the modal
@@ -122,8 +123,8 @@ export default function UserProfileListener() {
           </Card>
           <Button variant="primary" onClick={handleUpdateAvatar}>
                 Update Avatar
-              </Button>
-              <Button variant="primary" onClick={handleCreateVenue}>
+          </Button>
+              <Button href='/profile/create' variant="primary">
                 Create Venue
               </Button>
         </Col>
@@ -139,7 +140,7 @@ export default function UserProfileListener() {
           <Modal.Title>Update Avatar</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Group controlId="formAvatarUR\rl">
+          <Form.Group controlId="formAvatarUrl">
             <Form.Label>Enter a new avatar image URL:</Form.Label>
             <Form.Control
               type="url"
@@ -162,5 +163,4 @@ export default function UserProfileListener() {
     </Container>
   );
 }
-
 
