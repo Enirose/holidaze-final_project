@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Button, Card, Modal, Form } from 'react-bootstrap';
+import { Container, Row, Col, Button, Card, Modal, Form, Tabs, Tab, Image } from 'react-bootstrap';
 import { FetchUserProfile } from '../../posts/getProfile';
 import { EditAvatar} from '../../posts/editAvatar';
 import { load, save } from '../../components/localStorage';
+import CreatedBookingFormListener from '../../components/form/createdBookings';
 
 // // Custom function to set data in local storage
 // function setItem(key, value) {
@@ -115,7 +116,7 @@ export default function UserProfileListener() {
         {/* Left Side: User Information */}
         <Col md={4}>
           <Card>
-            <Card.Img variant="top" src={user.avatar} />
+            <Image src={user.avatar} roundedCircle/>
             <Card.Body>
               <Card.Title>{user.name}</Card.Title>
               <Card.Text>email : {user.email}</Card.Text>
@@ -131,6 +132,17 @@ export default function UserProfileListener() {
 
         {/* Right Side: Content */}
         <Col md={8}>
+          <Tabs  defaultActiveKey="Venue"
+            id="justify-tab-example"
+            className="mb-3"
+            justify>
+            <Tab eventKey="Venue" title="My Venue">
+              Tab content for venue
+            </Tab>
+            <Tab eventKey="Booking" title="My Bookings">
+              <CreatedBookingFormListener/>
+            </Tab>
+          </Tabs>
           {/* Content for the selected button */}
         </Col>
       </Row>
