@@ -6,8 +6,11 @@ import { load } from "../../localStorage";
 
 export default function CreatedBookingFormListener() {
   const UserName = load("user");
-  const userBookingUrl = "?_bookings=true&_venues=true&_owner=true";
+  const userBookingUrl = "?_bookings=true&_owner=true";
   const { data, isLoading, isError } = useApi(`${bookingUrl}/${UserName.name}${userBookingUrl}`);
+  //const bookings = Array.isArray(data) ? data : [];
+  //const booking changed to if(!Array....)
+
 
   if (isLoading) {
     return <div>Loading...</div>;

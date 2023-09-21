@@ -15,29 +15,32 @@ const schema = yup.object().shape({
         .required('Enter the title of you venue'),
     description: yup.string().required('Description of you venue is required'),
     media: yup
-        .string()
-        .url('Please enter a valid URL')
-        .matches(/^(http(s):\/\/.)[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)$/,
-        "Enter a valid url")
-        .required('Media URL is required'),
+        .array()
+        .of(yup.string().url('Please enter a valid URL').notRequired())
+        .required('At least one media URL is required'),
     price: yup.number().typeError('Please enter amount').required('Price is required'),
-    maxGuest: yup
+    maxGuests: yup
         .number()
         .typeError('Enter number of guest')
         .min(1, "Venue must room at least 1 guest")
         .required('Max Guest is required'),
-    // meta: yup.boolean(),
-    country: yup.string().required('Country is required'),
-    city: yup.string().required('Enter the city'),
+
+    location: yup.object()
+        .shape({
+            country: yup.string().required('Country is required'),
+            city: yup.string().required('City is required'),
+        }),
 });
 
 export default function CreateVenueFormListener() {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, setValue, getValues } = useForm({
         resolver: yupResolver(schema),
     });
+
+ const [mediaUrls, setMediaUrls] = useState([]); // State variable to store media URLs
 
     const onSubmit = async (data) => {
         setIsLoading(true);
@@ -63,6 +66,16 @@ export default function CreateVenueFormListener() {
         setIsLoading(false);
     };
 
+    // Function to handle adding a media URL to the list
+    const handleAddMedia = () => {
+        const mediaValue = getValues('media');
+        console.log(mediaValue);
+        if (mediaValue) {
+            setMediaUrls([...mediaUrls, mediaValue]);
+            setValue('media', ''); // Clear the input field after adding
+        }
+    };
+
     return (
         <Container>
             <Row>
@@ -82,7 +95,7 @@ export default function CreateVenueFormListener() {
                                         {errors.name?.message}
                                     </Form.Text>
                                 </Form.Group>
-                                <Form.Group controlId="formTitle">
+                                <Form.Group controlId="formDescription">
                                     <Form.Label>Description</Form.Label>
                                     <Form.Control
                                         as="textarea"
@@ -94,17 +107,37 @@ export default function CreateVenueFormListener() {
                                         {errors.description?.message}
                                     </Form.Text>
                                 </Form.Group>
-                                <Form.Group controlId="formTitle">
+                                <Form.Group controlId="formMedia">
                                     <Form.Label>Media</Form.Label>
                                     <Form.Control
                                         type="text"
-                                        placeholder="Enter your venue title"
+                                        placeholder="Enter a media URL"
                                         {...register('media')}
                                     />
+                                    <div>
+                                        <Button
+                                            variant="primary"
+                                            onClick={handleAddMedia}
+                                        >
+                                            Add Media
+                                        </Button>
+                                    </div>
                                     <Form.Text className="text-danger">
                                         {errors.media?.message}
                                     </Form.Text>
                                 </Form.Group>
+                                
+                                {/* Display uploaded media URLs as an array */}
+                                {mediaUrls.length > 0 && (
+                                    <div className="mb-3">
+                                        <h5>Uploaded Media:</h5>
+                                        <ul>
+                                            {mediaUrls.map((url, index) => (
+                                                <li key={index}>{url}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
                                 <Row>
                                     <Col>
                                         <Card>
@@ -173,10 +206,10 @@ export default function CreateVenueFormListener() {
                                                     <Form.Control
                                                         type="number"
                                                         placeholder="Enter max.guest"
-                                                        {...register('maxGuest')}
+                                                        {...register('maxGuests')}
                                                     />
                                                     <Form.Text className="text-danger">
-                                                        {errors.maxGuest?.message}
+                                                        {errors.maxGuests?.message}
                                                     </Form.Text>
                                                 </Form.Group>
                                             </Card.Body>
@@ -191,7 +224,7 @@ export default function CreateVenueFormListener() {
                                                     <Form.Control
                                                         type="text"
                                                         placeholder="Country"
-                                                        {...register('country')}
+                                                        {...register('location.country')}
                                                     />
                                                     <Form.Text className="text-danger">
                                                         {errors.country?.message}
@@ -202,7 +235,7 @@ export default function CreateVenueFormListener() {
                                                     <Form.Control
                                                         type="text"
                                                         placeholder="Enter city"
-                                                        {...register('city')}
+                                                        {...register('location.city')}
                                                     />
                                                     <Form.Text className="text-danger">
                                                         {errors.city?.message}
