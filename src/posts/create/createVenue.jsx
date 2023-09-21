@@ -2,7 +2,7 @@ import { venuesUrl } from "../../components/constants/constantsUrl";
 import { load } from "../../components/localStorage";
 
 
-export async function CreateVenue () {
+export async function CreateVenue (venueData) {
     const method = 'post';
     const token = load('token');
     const createVenueUrl = `${venuesUrl}`;
@@ -12,7 +12,7 @@ export async function CreateVenue () {
       const response = await fetch (createVenueUrl, {
         method,
         headers: {
-            'Content-Type': 'Application/json',
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(venueData),

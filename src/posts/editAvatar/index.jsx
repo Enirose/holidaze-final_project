@@ -2,7 +2,7 @@ import { profileUrl } from "../../components/constants/constantsUrl";
 import { load } from "../../components/localStorage";
 
 
-export async function EditAvatar(avatarUrl, token) {
+export async function EditAvatar(avatar, token) {
   const method = 'put';
   const userName = await load('user');
   const avatarUpdateUrl = `${profileUrl}${userName.name}/media`;
@@ -14,7 +14,7 @@ export async function EditAvatar(avatarUrl, token) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ avatarUrl }), // Send an object with avatarUrl property
+      body: JSON.stringify({ avatar }), // Send an object with avatarUrl property
     });
 
     if (response.ok) {
