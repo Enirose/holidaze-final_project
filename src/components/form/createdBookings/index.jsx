@@ -1,15 +1,17 @@
-import React from "react";
-import { Card, Container, ListGroup } from "react-bootstrap";
-import useApi from "../../hooks/useApi";
-import { bookingUrl } from "../../constants/constantsUrl";
-import { load } from "../../localStorage";
 
-export default function CreatedBookingFormListener() {
-  const UserName = load("user");
-  const userBookingUrl = "?_bookings=true&_owner=true";
-  const { data, isLoading, isError } = useApi(`${bookingUrl}/${UserName.name}${userBookingUrl}`);
-  //const bookings = Array.isArray(data) ? data : [];
-  //const booking changed to if(!Array....)
+// BookingsDisplay.js
+import React from 'react';
+import { Container, ListGroup, Card } from 'react-bootstrap';
+import { profileUrl } from '../../constants/constantsUrl';
+import { load } from '../../localStorage';
+import useApi from '../../hooks/useApi';
+
+export default function BookingsDisplay() {
+  const userData = load('user');
+  // const { name } = userData;
+  const userBookingUrl = `${userData.name}?_bookings=true&_owner=true`;
+
+  const { data, isLoading, isError } = useApi (`${profileUrl}${userBookingUrl}`);
 
 
   if (isLoading) {
@@ -20,9 +22,14 @@ export default function CreatedBookingFormListener() {
     return <div>Something went wrong!</div>;
   }
 
-  // Check if data is an array of bookings
   if (!Array.isArray(data)) {
-    return <div>No bookings found.</div>;
+    console.log("No bookings found.");
+    return (
+      <Container>
+        <h2>Your Bookings</h2>
+        <div>No bookings found.</div>
+      </Container>
+    );
   }
 
   return (
@@ -35,11 +42,19 @@ export default function CreatedBookingFormListener() {
               <Card.Body>
                 <Card.Title>Booking ID: {booking.id}</Card.Title>
                 <Card.Text>
-                  <p>From: {booking.dateFrom}</p>
-                  <p>To: {booking.dateTo}</p>
-                  <p>Guests: {booking.guests}</p>
-                  <p>Created: {booking.created}</p>
-                  <p>Updated: {booking.updated}</p>
+                  From: {booking.dateFrom}
+                </Card.Text>
+                <Card.Text>
+                  To: {booking.dateTo}
+                </Card.Text>
+                <Card.Text>
+                  Guests: {booking.guests}
+                </Card.Text>
+                <Card.Text>
+                  Created: {booking.created}
+                </Card.Text>
+                <Card.Text>
+                  Updated: {booking.updated}
                 </Card.Text>
               </Card.Body>
             </Card>
@@ -49,4 +64,3 @@ export default function CreatedBookingFormListener() {
     </Container>
   );
 }
-

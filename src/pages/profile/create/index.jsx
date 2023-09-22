@@ -14,10 +14,10 @@ const schema = yup.object().shape({
         .max(50, "Your name must be 50 characters or less")
         .required('Enter the title of you venue'),
     description: yup.string().required('Description of you venue is required'),
-    media: yup
-        .array()
-        .of(yup.string().url('Please enter a valid URL').notRequired())
-        .required('At least one media URL is required'),
+    // media: yup
+    //     .array()
+    //     .of(yup.string().url('Please enter a valid URL').notRequired())
+    //     .required('At least one media URL is required'),
     price: yup.number().typeError('Please enter amount').required('Price is required'),
     maxGuests: yup
         .number()
@@ -33,19 +33,30 @@ const schema = yup.object().shape({
 });
 
 export default function CreateVenueFormListener() {
+    const [mediaUrls, setMediaUrls] = useState(['']); // State variable to store media URLs
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
+    
+
     const { register, handleSubmit, formState: { errors }, setValue, getValues } = useForm({
         resolver: yupResolver(schema),
     });
 
- const [mediaUrls, setMediaUrls] = useState([]); // State variable to store media URLs
+ 
+    
 
     const onSubmit = async (data) => {
         setIsLoading(true);
         setIsError(false); // Set to false if checkbox is not checked
         console.log('Data being sent to the server:', data)
+        data.media = mediaArray;
+
+        // // Filter out empty media URLs before submitting
+        const mediaArray = data.media.filter((url) => url.trim() !== '');
+        
+        
+
         try {
             const venueResult = await CreateVenue(data);
             
@@ -67,7 +78,7 @@ export default function CreateVenueFormListener() {
     };
 
     // Function to handle adding a media URL to the list
-    const handleAddMedia = () => {
+     const handleAddMedia = () => {
         const mediaValue = getValues('media');
         console.log(mediaValue);
         if (mediaValue) {
@@ -75,6 +86,7 @@ export default function CreateVenueFormListener() {
             setValue('media', ''); // Clear the input field after adding
         }
     };
+
 
     return (
         <Container>
@@ -133,7 +145,7 @@ export default function CreateVenueFormListener() {
                                         <h5>Uploaded Media:</h5>
                                         <ul>
                                             {mediaUrls.map((url, index) => (
-                                                <li key={index}>{url}</li>
+                                                <div key={index}>{url}</div>
                                             ))}
                                         </ul>
                                     </div>
@@ -142,7 +154,65 @@ export default function CreateVenueFormListener() {
                                     <Col>
                                         <Card>
                                             <Card.Body>
-                                                <h4>What this place offers</h4>
+                                                <h4>Address</h4>
+                                                <Form.Group controlId="formBasicCountry">
+                                                    <Form.Label>Country</Form.Label>
+                                                    <Form.Control
+                                                        type="text"
+                                                        placeholder="Country"
+                                                        {...register('location.country')}
+                                                    />
+                                                    <Form.Text className="text-danger">
+                                                        {errors.country?.message}
+                                                    </Form.Text>
+                                                </Form.Group>
+                                                <Form.Group controlId="formBasicCity">
+                                                    <Form.Label>City</Form.Label>
+                                                    <Form.Control
+                                                        type="text"
+                                                        placeholder="Enter city"
+                                                        {...register('location.city')}
+                                                    />
+                                                    <Form.Text className="text-danger">
+                                                        {errors.city?.message}
+                                                    </Form.Text>
+                                                </Form.Group>
+                                            </Card.Body>
+                                        </Card>
+                                    </Col>
+                                    <Col>
+                                        <Card>
+                                            <Card.Body>
+                                                <h4>Price and Guest</h4>
+                                                <Form.Group controlId="formBasicPrice">
+                                                    <Form.Label>Price per night / kr</Form.Label>
+                                                    <Form.Control
+                                                        type="number"
+                                                        placeholder="Price per night"
+                                                        {...register('price')}
+                                                    />
+                                                    <Form.Text className="text-danger">
+                                                        {errors.price?.message}
+                                                    </Form.Text>
+                                                </Form.Group>
+                                                <Form.Group controlId="formBasicMaxGuest">
+                                                    <Form.Label>Max. Guest</Form.Label>
+                                                    <Form.Control
+                                                        type="number"
+                                                        placeholder="Enter max.guest"
+                                                        {...register('maxGuests')}
+                                                    />
+                                                    <Form.Text className="text-danger">
+                                                        {errors.maxGuests?.message}
+                                                    </Form.Text>
+                                                </Form.Group>
+                                            </Card.Body>
+                                        </Card>
+                                    </Col>
+                                    <Col>
+                                        <Card>
+                                            <Card.Body>
+                                                <h4>We offers</h4>
                                                 <Form.Group controlId="formBasicMetaParking">
                                                     <Form.Check
                                                         type="checkbox"
@@ -186,64 +256,8 @@ export default function CreateVenueFormListener() {
                                             </Card.Body>
                                         </Card>
                                     </Col> 
-                                    <Col>
-                                        <Card>
-                                            <Card.Body>
-                                                <h4>Price and Guest</h4>
-                                                <Form.Group controlId="formBasicPrice">
-                                                    <Form.Label>Price per night / kr</Form.Label>
-                                                    <Form.Control
-                                                        type="number"
-                                                        placeholder="Price per night"
-                                                        {...register('price')}
-                                                    />
-                                                    <Form.Text className="text-danger">
-                                                        {errors.price?.message}
-                                                    </Form.Text>
-                                                </Form.Group>
-                                                <Form.Group controlId="formBasicMaxGuest">
-                                                    <Form.Label>Max. Guest</Form.Label>
-                                                    <Form.Control
-                                                        type="number"
-                                                        placeholder="Enter max.guest"
-                                                        {...register('maxGuests')}
-                                                    />
-                                                    <Form.Text className="text-danger">
-                                                        {errors.maxGuests?.message}
-                                                    </Form.Text>
-                                                </Form.Group>
-                                            </Card.Body>
-                                        </Card>
-                                    </Col>
-                                    <Col>
-                                        <Card>
-                                            <Card.Body>
-                                                <h4>Address</h4>
-                                                <Form.Group controlId="formBasicCountry">
-                                                    <Form.Label>Country</Form.Label>
-                                                    <Form.Control
-                                                        type="text"
-                                                        placeholder="Country"
-                                                        {...register('location.country')}
-                                                    />
-                                                    <Form.Text className="text-danger">
-                                                        {errors.country?.message}
-                                                    </Form.Text>
-                                                </Form.Group>
-                                                <Form.Group controlId="formBasicCity">
-                                                    <Form.Label>City</Form.Label>
-                                                    <Form.Control
-                                                        type="text"
-                                                        placeholder="Enter city"
-                                                        {...register('location.city')}
-                                                    />
-                                                    <Form.Text className="text-danger">
-                                                        {errors.city?.message}
-                                                    </Form.Text>
-                                                </Form.Group>
-                                            </Card.Body>
-                                        </Card>
-                                    </Col>
+                                    
+                                    
                                 </Row>
 
                             
