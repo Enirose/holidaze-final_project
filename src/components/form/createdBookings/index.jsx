@@ -1,10 +1,11 @@
 
 // BookingsDisplay.js
 import React from 'react';
-import { Container, ListGroup, Card, Col, Image } from 'react-bootstrap';
+import { Container, ListGroup, Card, Image } from 'react-bootstrap';
 import { profileUrl } from '../../constants/constantsUrl';
 import { load } from '../../localStorage';
 import useApi from '../../hooks/useApi';
+import { Link } from 'react-router-dom';
 
 export default function BookingsDisplay() {
   const userData = load('user');
@@ -43,41 +44,43 @@ export default function BookingsDisplay() {
         <ListGroup>
           {bookings.map((booking) => (
             <ListGroup.Item key={booking.id}>
-              <Card>
-                <Card.Body>
-                  <Card.Title>Booking ID: {booking.venue.name}</Card.Title>
-                   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                    {booking.venue.media && booking.venue.media.length > 0 ? (
-                      <Image
-                        src={booking.venue.media[0]}
-                        alt={`Image for booking ID: ${booking.id}`}
-                        style={{ maxWidth: '50%', maxHeight: '100%', width: 'auto', height: 'auto' }}
-                      />
-                    ) : (
-                      <Image
-                        src="placeholder-image-url.jpg"
-                        alt="Placeholder Image"
-                        style={{ maxWidth: '50%', maxHeight: '50%', width: 'auto', height: 'auto' }}
-                      />
-                    )}
-                  </div>
-                  <Card.Text>
-                    From: {booking.dateFrom}
-                  </Card.Text>
-                  <Card.Text>
-                    To: {booking.dateTo}
-                  </Card.Text>
-                  <Card.Text>
-                    Guests: {booking.guests}
-                  </Card.Text>
-                  <Card.Text>
-                    Created: {booking.created}
-                  </Card.Text>
-                  <Card.Text>
-                    Updated: {booking.updated}
-                  </Card.Text>
-                </Card.Body>
-              </Card>
+              <Link to={`/venue/${booking.venue.id}`} key={booking.id}>
+                <Card>
+                  <Card.Body>
+                    <Card.Title>Booking ID: {booking.venue.name}</Card.Title>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                      {booking.venue.media && booking.venue.media.length > 0 ? (
+                        <Image
+                          src={booking.venue.media[0]}
+                          alt={`Image for booking ID: ${booking.id}`}
+                          style={{ maxWidth: '50%', maxHeight: '100%', width: 'auto', height: 'auto' }}
+                        />
+                      ) : (
+                        <Image
+                          src="placeholder-image-url.jpg"
+                          alt="Placeholder Image"
+                          style={{ maxWidth: '50%', maxHeight: '50%', width: 'auto', height: 'auto' }}
+                        />
+                      )}
+                    </div>
+                    <Card.Text>
+                      From: {booking.dateFrom}
+                    </Card.Text>
+                    <Card.Text>
+                      To: {booking.dateTo}
+                    </Card.Text>
+                    <Card.Text>
+                      Guests: {booking.guests}
+                    </Card.Text>
+                    <Card.Text>
+                      Created: {booking.created}
+                    </Card.Text>
+                    <Card.Text>
+                      Updated: {booking.updated}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </Link>
             </ListGroup.Item>
           ))}
         </ListGroup>

@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 
 export default function SpecificVenue() {
   const { id } = useParams();
-  const ownerUrl = "?_owner=true";
+  const ownerUrl = "?_bookings=true&owner=true";
   const { data, isLoading, isError } = useApi(`${venuesUrl}/${id}${ownerUrl}`);
 
 //   const [index, setIndex] = useState(0);
