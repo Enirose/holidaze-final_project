@@ -1,4 +1,4 @@
 
-export default function CreatedVenuesFormListener () {
+export default function VenuesDisplay () {
     
 }

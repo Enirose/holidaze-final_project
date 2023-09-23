@@ -4,7 +4,7 @@ import { load } from "../../components/localStorage";
 export async function FetchUserProfile(user) {
   const method = "get";
   const token = load('token')
-  const singleProfileUrl = `${profileUrl}${user.name}?_bookings=true&_venues=true`;
+  const singleProfileUrl = `${profileUrl}${user.name}`;
 
   try {
     const response = await fetch(singleProfileUrl, {

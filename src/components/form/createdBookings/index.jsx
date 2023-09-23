@@ -22,45 +22,87 @@ export default function BookingsDisplay() {
     return <div>Something went wrong!</div>;
   }
 
-  if (!Array.isArray(data)) {
-    console.log("No bookings found.");
-    return (
-      <Container>
-        <h2>Your Bookings</h2>
-        <div>No bookings found.</div>
-      </Container>
-    );
-  }
+  // Check if 'data' contains the bookings property
+  // if (!data.hasOwnProperty('bookings') || data.bookings.length === 0) {
+  //   console.log(data);
+  //   return (
+  //     <Container>
+  //       <h2>Your Bookings</h2>
+  //       <div>No bookings found.</div>
+  //     </Container>
+  //   );
+  // }
+ 
+  const bookings = data?.bookings || [];
 
   return (
     <Container>
       <h2>Your Bookings</h2>
-      <ListGroup>
-        {data.map((booking) => (
-          <ListGroup.Item key={booking.id}>
-            <Card>
-              <Card.Body>
-                <Card.Title>Booking ID: {booking.id}</Card.Title>
-                <Card.Text>
-                  From: {booking.dateFrom}
-                </Card.Text>
-                <Card.Text>
-                  To: {booking.dateTo}
-                </Card.Text>
-                <Card.Text>
-                  Guests: {booking.guests}
-                </Card.Text>
-                <Card.Text>
-                  Created: {booking.created}
-                </Card.Text>
-                <Card.Text>
-                  Updated: {booking.updated}
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
+      {bookings.length > 0 ? (
+        <ListGroup>
+          {bookings.map((booking) => (
+            <ListGroup.Item key={booking.id}>
+              <Card>
+                <Card.Body>
+                  <Card.Title>Booking ID: {booking.id}</Card.Title>
+                  <Card.Text>
+                    From: {booking.dateFrom}
+                  </Card.Text>
+                  <Card.Text>
+                    To: {booking.dateTo}
+                  </Card.Text>
+                  <Card.Text>
+                    Guests: {booking.guests}
+                  </Card.Text>
+                  <Card.Text>
+                    Created: {booking.created}
+                  </Card.Text>
+                  <Card.Text>
+                    Updated: {booking.updated}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+      ) : (
+        <div>No bookings found.</div>
+      )}
     </Container>
   );
 }
+  // return (
+  //   <Container>
+  //     <h2>Your Bookings</h2>
+  //     <ListGroup>
+  //       {data.bookings.map((booking) => (
+  //         <ListGroup.Item key={booking.id}>
+  //           <Card>
+  //             <Card.Body>
+  //               <Card.Title>Booking ID: {booking.id}</Card.Title>
+  //               <Card.Text>
+  //                 From: {booking.dateFrom}
+  //               </Card.Text>
+  //               <Card.Text>
+  //                 To: {booking.dateTo}
+  //               </Card.Text>
+  //               <Card.Text>
+  //                 Guests: {booking.guests}
+  //               </Card.Text>
+  //               <Card.Text>
+  //                 Created: {booking.created}
+  //               </Card.Text>
+  //               <Card.Text>
+  //                 Updated: {booking.updated}
+  //               </Card.Text>
+  //             </Card.Body>
+  //           </Card>
+  //         </ListGroup.Item>
+  //       ))}
+  //     </ListGroup>
+  //   </Container>
+  // );
+
+  
+
+
