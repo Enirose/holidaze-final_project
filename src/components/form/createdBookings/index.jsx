@@ -6,6 +6,7 @@ import { profileUrl } from '../../constants/constantsUrl';
 import { load } from '../../localStorage';
 import useApi from '../../hooks/useApi';
 import { Link } from 'react-router-dom';
+import formatDate from '../../formatDate';
 
 export default function BookingsDisplay() {
   const userData = load('user');
@@ -47,7 +48,7 @@ export default function BookingsDisplay() {
               <Link to={`/venue/${booking.venue.id}`} key={booking.id}>
                 <Card>
                   <Card.Body>
-                    <Card.Title>Booking ID: {booking.venue.name}</Card.Title>
+                    <h1> {booking.venue.name}</h1>
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
                       {booking.venue.media && booking.venue.media.length > 0 ? (
                         <Image
@@ -64,19 +65,16 @@ export default function BookingsDisplay() {
                       )}
                     </div>
                     <Card.Text>
-                      From: {booking.dateFrom}
+                      From: {formatDate (booking.dateFrom)}
                     </Card.Text>
                     <Card.Text>
-                      To: {booking.dateTo}
+                      To: {formatDate(booking.dateTo)}
                     </Card.Text>
                     <Card.Text>
-                      Guests: {booking.guests}
+                      Guests: {formatDate(booking.guests)}
                     </Card.Text>
                     <Card.Text>
-                      Created: {booking.created}
-                    </Card.Text>
-                    <Card.Text>
-                      Updated: {booking.updated}
+                      Total: NOK {booking.venue.price}
                     </Card.Text>
                   </Card.Body>
                 </Card>
@@ -85,7 +83,7 @@ export default function BookingsDisplay() {
           ))}
         </ListGroup>
       ) : (
-        <div>No bookings found.</div>
+        <div>No bookings found!</div>
       )}
     </Container>
   );

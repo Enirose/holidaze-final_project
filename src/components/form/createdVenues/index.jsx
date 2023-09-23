@@ -4,6 +4,7 @@ import { profileUrl } from "../../constants/constantsUrl";
 import useApi from "../../hooks/useApi";
 import { load } from "../../localStorage";
 import { Link } from "react-router-dom";
+import formatDate from "../../formatDate";
 
 export default function VenuesDisplay () {
     const userData = load('user');
@@ -25,12 +26,6 @@ export default function VenuesDisplay () {
     }
 
     const venues = data?.venues || [];
-    
-    // Function to format a date in a user-friendly format
-    const formatDate = (dateString) => {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-    };
 
     return (
         <Container>
