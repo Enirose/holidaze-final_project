@@ -33,8 +33,8 @@ const schema = yup.object().shape({
 });
 
 export default function CreateVenueFormListener() {
-    const [mediaUrls, setMediaUrls] = useState(['']); // State variable to store media URLs
     const navigate = useNavigate();
+    const [mediaUrls, setMediaUrls] = useState(''); // State variable to store media URLs
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
     
@@ -43,17 +43,15 @@ export default function CreateVenueFormListener() {
         resolver: yupResolver(schema),
     });
 
- 
-    
 
     const onSubmit = async (data) => {
         setIsLoading(true);
         setIsError(false); // Set to false if checkbox is not checked
         console.log('Data being sent to the server:', data)
-        data.media = mediaArray;
+        data.media = mediaUrls;
 
-        // // Filter out empty media URLs before submitting
-        const mediaArray = data.media.filter((url) => url.trim() !== '');
+        // // // Filter out empty media URLs before submitting
+        // const mediaArray = data.media.filter((url) => url.trim() !== '');
         
         
 
