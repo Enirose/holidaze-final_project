@@ -2,7 +2,7 @@ import { venuesUrl } from "../../components/constants/constantsUrl";
 import { load } from "../../components/localStorage";
 
 
-export async function CreateVenue (venueData) {
+export async function CreateVenue (venues) {
     const method = 'post';
     const token = load('token');
     const createVenueUrl = `${venuesUrl}`;
@@ -15,7 +15,7 @@ export async function CreateVenue (venueData) {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(venueData),
+        body: JSON.stringify(venues),
       });
 
         const venueResult = await response.json();

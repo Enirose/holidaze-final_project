@@ -4,6 +4,7 @@ import { FetchUserProfile } from '../../posts/getProfile';
 import AvatarUpdate from '../../components/form/avatar';
 import BookingsDisplay from '../../components/form/createdBookings'
 import { load } from '../../components/localStorage';
+import VenuesDisplay from '../../components/form/createdVenues';
 
 export default function UserProfileListener() {
   const [user, setUser] = useState({
@@ -74,7 +75,7 @@ export default function UserProfileListener() {
             justify
           >
             <Tab eventKey="Venue" title="My Venue">
-              Tab content for venue
+              < VenuesDisplay />
             </Tab>
             <Tab eventKey="Booking" title="My Bookings">
               < BookingsDisplay />

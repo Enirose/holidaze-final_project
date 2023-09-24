@@ -9,6 +9,7 @@ import RegisterListener from "./pages/register";
 import LoginPage from "./pages/login"
 import UserProfile from "./pages/profile"
 import CreateVenueForm from "./pages/profile/create"
+import EditVenueFormListener from "./pages/profile/edit"
 
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
                 <Route path="/venue/:id" element={<SpecificVenue/>} />
                 <Route path="/profile" element={<UserProfile/>} />
                 <Route path="/profile/create" element={<CreateVenueForm/>} />
+                <Route path="/profile/edit/:id" element={<EditVenueFormListener/>} />
               </Route>
             </Route>
           </Routes>

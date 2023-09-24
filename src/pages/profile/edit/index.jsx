@@ -1,13 +1,15 @@
-
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom"
+import { EditVenue } from "../../../posts/editCreatedVenue";
+import { save } from "../../../components/localStorage";
+import { Col, Container, Form, Row, Card, Button } from "react-bootstrap";
 import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { CreateVenue } from '../../../posts/create/createVenue';
+import { FetchSingleVenue } from "../../../posts/getSpecificVenueById";
 
-const schema = yup.object().shape({
+
+const editSchema = yup.object().shape ({
     name: yup
         .string()
         .min(3, "You need at least 3 characters")
@@ -30,49 +32,79 @@ const schema = yup.object().shape({
             country: yup.string().required('Country is required'),
             city: yup.string().required('City is required'),
         }),
-});
+})
 
-export default function CreateVenueFormListener() {
+export default function EditVenueFormListener () {
     const navigate = useNavigate();
-    const [mediaUrls, setMediaUrls] = useState(''); // State variable to store media URLs
+    const {venueId} = useParams();
+    const [mediaUrls, setMediaUrls] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
-    
+    const [initialData, setInitialData] = useState(null)
 
-    const { register, handleSubmit, formState: { errors }, setValue, getValues } = useForm({
-        resolver: yupResolver(schema),
+
+    const {register, handleSubmit, formState: {errors}, setValue, getValues } = useForm({
+        resolver: yupResolver(editSchema),
     });
 
 
-    const onSubmit = async (data) => {
-        setIsLoading(true);
-        setIsError(false); // Set to false if checkbox is not checked
-        console.log('Data being sent to the server:', data)
-        data.media = mediaUrls;
+    useEffect(() => {
+         // Fetch the venue data by ID from api method FetchSingleVenue
+        async function fetchData () {
+            setIsLoading(true);
+            setIsError(false);
 
-        // // // Filter out empty media URLs before submitting
-        // const mediaArray = data.media.filter((url) => url.trim() !== '');
+            try {
+                const venueData = await FetchSingleVenue(id);
+                console.log('Data being fetch from the server:', data);
+
+                setInitialData(venueData);
+                setMediaUrls(venueData.media || []);
+            } catch (error) {
+                setIsError(true);
+                alert('Failed to create a new venue. Please try again later.');
+            }
+            setIsLoading(false);
+        }
+        fetchData();
+    }, [venueId]);
+
+
+    const onSubmit= async (data) => {
+        setIsLoading(true);
+        setIsError(false);
+        console.log('Data being sent to the server');
+
         
-        
+        // Include media URLs in the data to send to the server
+        data. media = mediaUrls;
+
 
         try {
-            const venueResult = await CreateVenue(data);
-            
-            if (venueResult) {
+            // Simulate an API update call; replace this with your actual API update logic
+            const response = await EditVenue(venueId, data);
+
+            console.log('Data being sent to the server:', data);
+
+            if (response.ok) {
+
+                // Simulate a successful update response / Venue data updated successfully
+                const updatedVenueData = {...data};
+
                 // Save the venue data to localStorage or perform any other necessary actions
-                localStorage.setItem('venueData', JSON.stringify(venueResult));
-                
+                save('venueData', JSON.stringify(updatedVenueData));
+
                 // Redirect to the profile page or another appropriate page
                 navigate('/profile');
             } else {
                 setIsError(true);
-                alert('Failed to create a new venue. Please try again later.');
+                alert('Failed tp update the venue. Please try again.')
             }
         } catch (error) {
             setIsError(true);
-            alert('Failed to create a new venue. Please try again later.');
+            alert('Failed to update the venue. Please try again later.')
         }
-        setIsLoading(false);
+        setIsLoading(false)
     };
 
     // Function to handle adding a media URL to the list
@@ -85,14 +117,22 @@ export default function CreateVenueFormListener() {
         }
     };
 
+    if (initialData === null) {
+        // Render loading indicator or message while fetching data
+        return <div>Loading...</div>;
+    }
 
-    return (
+
+
+
+
+    return(
         <Container>
             <Row>
                 <Col>
                     <Card>
                         <Card.Body>
-                            <h1> Create your venue</h1>
+                            <h1>edit</h1>
                             <Form onSubmit={handleSubmit(onSubmit)}>
                                 <Form.Group controlId="formTitle">
                                     <Form.Label>Title</Form.Label>
@@ -262,11 +302,14 @@ export default function CreateVenueFormListener() {
                                 {/* Add similar Form.Group elements for other fields */}
                                 
                                 <Button variant="primary" type="submit" disabled={isLoading}>
-                                    {isLoading ? 'Registering...' : 'Register'}
+                                    {isLoading ? 'Updating...' : 'Update'}
                                 </Button>
+                                {/* <Button variant="danger" onClick={handleDelete}>
+                                  Delete
+                                </Button> */}
                                 {isError && (
                                     <div className="mt-2 text-danger">
-                                        Registration failed. Please try again later.
+                                        Failed to update venue. Please try again later.
                                     </div>
                                 )}
                             </Form>
@@ -275,6 +318,6 @@ export default function CreateVenueFormListener() {
                 </Col>
             </Row>
         </Container>
-        
-    );
+    )
+
 }
