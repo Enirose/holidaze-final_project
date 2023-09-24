@@ -63,7 +63,7 @@ export default function VenuesDisplay () {
                                     </Card.Body>
                                 </Card>
                             </Link>
-                            <Button href="/profile/edit" >Update Venue</Button>
+                            <Button href={`/profile/edit/${venue.id}`} >Update Venue</Button>
                         </ListGroup.Item>
                     ))}
                 </ListGroup>
