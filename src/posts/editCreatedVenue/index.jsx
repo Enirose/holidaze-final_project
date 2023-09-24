@@ -7,7 +7,7 @@ export async function EditVenue() {
     const userName = load('user');
     const { name } = userName;
     const venueUpdateUrl = `${venuesUrl}/${name}`;
-
+    
     try {
         const response = await fetch(venueUpdateUrl, {
             method,
