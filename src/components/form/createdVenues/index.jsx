@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Container, ListGroup, Image } from "react-bootstrap";
+import { Card, Container, ListGroup, Image, Button } from "react-bootstrap";
 import { profileUrl } from "../../constants/constantsUrl";
 import useApi from "../../hooks/useApi";
 import { load } from "../../localStorage";
@@ -63,6 +63,7 @@ export default function VenuesDisplay () {
                                     </Card.Body>
                                 </Card>
                             </Link>
+                            <Button href="/profile/edit" >Update Venue</Button>
                         </ListGroup.Item>
                     ))}
                 </ListGroup>
