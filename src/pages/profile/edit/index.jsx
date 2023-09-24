@@ -6,6 +6,7 @@ import { EditVenue } from "../../../posts/editCreatedVenue";
 import { save } from "../../../components/localStorage";
 import { Col, Container, Form, Row, Card, Button } from "react-bootstrap";
 import * as yup from 'yup';
+import { FetchSingleVenue } from "../../../posts/getSpecificVenueById";
 
 
 const editSchema = yup.object().shape ({
@@ -36,30 +37,62 @@ const editSchema = yup.object().shape ({
 export default function EditVenueFormListener () {
     const navigate = useNavigate();
     const {venueId} = useParams();
-    const [venueData, setVenueData] = useState({});
     const [mediaUrls, setMediaUrls] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
+    const [initialData, setInitialData] = useState(null)
 
 
-    const {register, handleSubmit, formState: {errors}, setValue, getValues, reset } = useForm({
+    const {register, handleSubmit, formState: {errors}, setValue, getValues } = useForm({
         resolver: yupResolver(editSchema),
-        defaultValues: venueData, // Populate form with venueData
     });
+
+
+    useEffect(() => {
+         // Fetch the venue data by ID from api method FetchSingleVenue
+        async function fetchData () {
+            setIsLoading(true);
+            setIsError(false);
+
+            try {
+                const venueData = await FetchSingleVenue(id);
+                console.log('Data being fetch from the server:', data);
+
+                setInitialData(venueData);
+                setMediaUrls(venueData.media || []);
+            } catch (error) {
+                setIsError(true);
+                alert('Failed to create a new venue. Please try again later.');
+            }
+            setIsLoading(false);
+        }
+        fetchData();
+    }, [venueId]);
+
 
     const onSubmit= async (data) => {
         setIsLoading(true);
         setIsError(false);
         console.log('Data being sent to the server');
+
+        
+        // Include media URLs in the data to send to the server
         data. media = mediaUrls;
 
 
         try {
-            const success = await EditVenue(venueId, data);
+            // Simulate an API update call; replace this with your actual API update logic
+            const response = await EditVenue(venueId, data);
 
-            if (success) {
+            console.log('Data being sent to the server:', data);
+
+            if (response.ok) {
+
+                // Simulate a successful update response / Venue data updated successfully
+                const updatedVenueData = {...data};
+
                 // Save the venue data to localStorage or perform any other necessary actions
-                save('venueData', JSON.stringify(data));
+                save('venueData', JSON.stringify(updatedVenueData));
 
                 // Redirect to the profile page or another appropriate page
                 navigate('/profile');
@@ -84,20 +117,13 @@ export default function EditVenueFormListener () {
         }
     };
 
+    if (initialData === null) {
+        // Render loading indicator or message while fetching data
+        return <div>Loading...</div>;
+    }
 
-    // Fetch venue data when the component loads (useEffect or componentDidMount)
-    useEffect(() => {
-        // Example of fetching venue data based on the ID
-        if (venueId) {
-            EditVenue(venueId)
-                .then((data) => {
-                    setVenueData(data);
-                })
-                .catch((error) => {
-                    console.error('Error fetching venue data:', error);
-                });
-        }
-    }, [venueId]);
+
+
 
 
     return(
