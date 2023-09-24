@@ -14,7 +14,6 @@ export async function FetchSingleVenue () {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(id)
         });
 
         const venueData = await response.json();
