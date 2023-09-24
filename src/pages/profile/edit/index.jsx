@@ -55,8 +55,7 @@ export default function EditVenueFormListener () {
             setIsError(false);
 
             try {
-                const venueData = await FetchSingleVenue(id);
-                console.log('Data being fetch from the server:', data);
+                const venueData = await FetchSingleVenue(venueId);
 
                 setInitialData(venueData);
                 setMediaUrls(venueData.media || []);

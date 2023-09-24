@@ -1,24 +1,17 @@
 import { venuesUrl } from "../../components/constants/constantsUrl"
-import { load } from "../../components/localStorage"
+// import { load } from "../../components/localStorage"
 
 
-export async function FetchSingleVenue () {
-    const method = 'get'
-    const id = load('token')
+export async function FetchSingleVenue (id) {
+    // const method = 'get'
+    // const token = load('token')
     const VenueById = `${venuesUrl}/${id}`;
 
     try {
-        const response = await fetch(VenueById, {
-            method,
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-            },
-        });
-
-        const venueData = await response.json();
+        const response = await fetch(VenueById)
 
         if (response.ok) {
+            const venueData = await response.json();
             return venueData;
         } else {
             alert('Something went wrong! Try again later');
