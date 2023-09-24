@@ -26,7 +26,7 @@ export default function App() {
                 <Route path="/venue/:id" element={<SpecificVenue/>} />
                 <Route path="/profile" element={<UserProfile/>} />
                 <Route path="/profile/create" element={<CreateVenueForm/>} />
-                <Route path="/profile/edit/:venueId" element={<EditVenueFormListener/>} />
+                <Route path="/profile/edit/:id" element={<EditVenueFormListener/>} />
               </Route>
             </Route>
           </Routes>
