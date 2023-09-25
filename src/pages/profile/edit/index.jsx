@@ -76,7 +76,7 @@ export default function EditVenueFormListener () {
 
         
         // Include media URLs in the data to send to the server
-        data. media = mediaUrls;
+        data.media = mediaUrls; // Use the updated media URLs here
 
 
         try {
@@ -116,6 +116,13 @@ export default function EditVenueFormListener () {
         }
     };
 
+    // Function to handle media deletion
+    const handleDeleteMedia = (index) => {
+        const updatedMediaUrls = [...mediaUrls];
+        updatedMediaUrls.splice(index, 1); // Remove the media item at the given index
+        setMediaUrls(updatedMediaUrls); // Update the mediaUrls state
+    };
+
     if (initialData === null) {
         // Render loading indicator or message while fetching data
         return <div>Loading...</div>;
@@ -139,6 +146,7 @@ export default function EditVenueFormListener () {
                                         type="text"
                                         placeholder="Enter your venue title"
                                         {...register('name')}
+                                        defaultValue={initialData.name}
                                     />
                                     <Form.Text className="text-danger">
                                         {errors.name?.message}
@@ -151,6 +159,7 @@ export default function EditVenueFormListener () {
                                         rows={4}
                                         placeholder="Describe your venue"
                                         {...register('description')}
+                                        defaultValue={initialData.description}
                                     />
                                     <Form.Text className="text-danger">
                                         {errors.description?.message}
@@ -182,7 +191,17 @@ export default function EditVenueFormListener () {
                                         <h5>Uploaded Media:</h5>
                                         <ul>
                                             {mediaUrls.map((url, index) => (
-                                                <div key={index}>{url}</div>
+                                                <div key={index}>
+                                                    <span>{url}</span>
+                                                    <Button
+                                                        variant="danger"
+                                                        size="sm"
+                                                        onClick={() => handleDeleteMedia(index)}
+                                                    >
+                                                        Delete
+                                                    </Button>
+                                                </div>
+
                                             ))}
                                         </ul>
                                     </div>
@@ -198,6 +217,7 @@ export default function EditVenueFormListener () {
                                                         type="text"
                                                         placeholder="Country"
                                                         {...register('location.country')}
+                                                        defaultValue={initialData.location.country}
                                                     />
                                                     <Form.Text className="text-danger">
                                                         {errors.country?.message}
@@ -209,6 +229,7 @@ export default function EditVenueFormListener () {
                                                         type="text"
                                                         placeholder="Enter city"
                                                         {...register('location.city')}
+                                                        defaultValue={initialData.location.city}
                                                     />
                                                     <Form.Text className="text-danger">
                                                         {errors.city?.message}
@@ -227,6 +248,7 @@ export default function EditVenueFormListener () {
                                                         type="number"
                                                         placeholder="Price per night"
                                                         {...register('price')}
+                                                        defaultValue={initialData.price}
                                                     />
                                                     <Form.Text className="text-danger">
                                                         {errors.price?.message}
@@ -238,6 +260,7 @@ export default function EditVenueFormListener () {
                                                         type="number"
                                                         placeholder="Enter max.guest"
                                                         {...register('maxGuests')}
+                                                        defaultValue={initialData.maxGuests}
                                                     />
                                                     <Form.Text className="text-danger">
                                                         {errors.maxGuests?.message}
@@ -255,6 +278,7 @@ export default function EditVenueFormListener () {
                                                         type="checkbox"
                                                         label="Parking"
                                                         {...register('meta.parking')}
+                                                        defaultChecked={initialData.meta.parking} // Set the initial value
                                                     />
                                                     <Form.Text className="text-danger">
                                                         {errors.meta?.message}
@@ -265,6 +289,7 @@ export default function EditVenueFormListener () {
                                                         type="checkbox"
                                                         label="Wifi"
                                                         {...register('meta.wifi')}
+                                                        defaultChecked={initialData.meta.wifi}
                                                     />
                                                     <Form.Text className="text-danger">
                                                         {errors.meta?.message}
@@ -275,6 +300,7 @@ export default function EditVenueFormListener () {
                                                         type="checkbox"
                                                         label="Breakfast"
                                                         {...register('meta.breakfast')}
+                                                        defaultChecked={initialData.meta.breakfast}                                                        
                                                     />
                                                     <Form.Text className="text-danger">
                                                         {errors.meta?.message}
@@ -285,6 +311,7 @@ export default function EditVenueFormListener () {
                                                         type="checkbox"
                                                         label="Pets"
                                                         {...register('meta.pets')}
+                                                        defaultChecked={initialData.meta.pets}
                                                     />
                                                     <Form.Text className="text-danger">
                                                         {errors.meta?.message}
