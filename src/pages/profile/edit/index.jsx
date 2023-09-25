@@ -7,6 +7,7 @@ import { save } from "../../../components/localStorage";
 import { Col, Container, Form, Row, Card, Button } from "react-bootstrap";
 import * as yup from 'yup';
 import { FetchSingleVenue } from "../../../posts/getSpecificVenueById";
+import { DeleteVenue } from "../../../posts/deleteVenue";
 
 
 const editSchema = yup.object().shape ({
@@ -131,6 +132,31 @@ export default function EditVenueFormListener () {
         // Render loading indicator or message while fetching data
         return <div>Loading...</div>;
     }
+
+    //execute Api function to delete the venue
+    const handleDelete = async () => {
+        if (window.confirm("Are you sure you want to delete this venue?")) {
+            try {
+                // Simulate an API delete call; replace this with your actual API delete logic
+                const response = await DeleteVenue(venueId);
+
+                if (response.ok) {
+                    // Delete the venue data from localStorage
+                    save('venueData', null);
+
+                    // Redirect to the profile page or another appropriate page after deletion
+                    navigate('/profile');
+                } else {
+                    setIsError(true);
+                    console.log('Failed to delete the venue');
+                }
+            } catch (error) {
+                setIsError(true);
+                console.error('API Error:', error);
+                alert('Failed to delete the venue. Please try again later.');
+            }
+        }
+    };
 
 
 
@@ -334,9 +360,12 @@ export default function EditVenueFormListener () {
                                 <Button variant="primary" type="submit" disabled={isLoading}>
                                     {isLoading ? 'Updating...' : 'Update'}
                                 </Button>
-                                {/* <Button variant="danger" onClick={handleDelete}>
+                                <Button variant="secondary" onClick={() => navigate('/profile')}>
+                                Close
+                                </Button>
+                                <Button variant="danger" onClick={handleDelete}>
                                   Delete
-                                </Button> */}
+                                </Button>
                                 {isError && (
                                     <div className="mt-2 text-danger">
                                         Failed to update venue. Please try again later.
