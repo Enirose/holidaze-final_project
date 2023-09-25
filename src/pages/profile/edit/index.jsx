@@ -83,27 +83,31 @@ export default function EditVenueFormListener () {
             // Simulate an API update call; replace this with your actual API update logic
             const response = await EditVenue(venueId, data);
 
-            console.log('Data being sent to the server:', data);
+            // console.log('Data being sent to the server:', data);
+            // console.log(response);
 
             if (response.ok) {
-
+                
                 // Simulate a successful update response / Venue data updated successfully
-                const updatedVenueData = {...data};
+                const updatedVenueData = response.json;
 
                 // Save the venue data to localStorage or perform any other necessary actions
                 save('venueData', JSON.stringify(updatedVenueData));
-
-                // Redirect to the profile page or another appropriate page
-                navigate('/profile');
+                
+                
             } else {
                 setIsError(true);
-                alert('Failed tp update the venue. Please try again.')
+                // console.log('Failed+++ to update');
             }
         } catch (error) {
             setIsError(true);
             alert('Failed to update the venue. Please try again later.')
+        } finally {
+            setIsLoading(false) 
+            // Redirect to the profile page or another appropriate page
+            navigate('/profile');
         }
-        setIsLoading(false)
+              
     };
 
     // Function to handle adding a media URL to the list

@@ -4,7 +4,7 @@ import { load } from "../../components/localStorage";
 
 export async function EditVenue(id, data) {
     const method = 'put';
-    const token = load('user');
+    const token = load('token');
     // const { id } = userName;
     const venueUpdateUrl = `${venuesUrl}/${id}`;
 
