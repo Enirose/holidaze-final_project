@@ -1,23 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import useApi from "../../components/hooks/useApi";
 import { venuesUrl } from "../../components/constants/constantsUrl";
-import { Card, Container, Row, Col, Carousel, Form, Button } from "react-bootstrap";
+import { Card, Container, Row, Col, Carousel } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import DatePicker from "react-datepicker";
-import 'react-datepicker/dist/react-datepicker.css'
+import BookDateByCalendar from "../../components/form/bookVenue";
 
 export default function SpecificVenue() {
   const { id } = useParams();
   const ownerUrl = "?_bookings=true&owner=true";
   const { data, isLoading, isError } = useApi(`${venuesUrl}/${id}${ownerUrl}`);
-  const [checkInDate, setCheckInDate] = useState(null);
-  const [checkOutDate, setCheckOutDate] = useState(null);
-   const [totalAmount, setTotalAmount] = useState(0);
-
-//   const [index, setIndex] = useState(0);
-//   const handleSelect = (selectedIndex) =>{
-//     setIndex(selectedIndex)
-//   }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -57,25 +48,22 @@ export default function SpecificVenue() {
     : "Breakfast: No";
 
   
-  const handleCheckInChange = (date) => {
-    setCheckInDate(date);
-  };
 
-  const handleCheckOutChange = (date) => {
-    setCheckOutDate(date);
-  };
+  // const handleBookVenue = () => {
+  //   HandleBookVenue(checkInDate, checkOutDate, totalAmount, totalGuests, id, maxGuests);
+  // };
 
-  const calculateTotalAmount = () => {
-    if (checkInDate && checkOutDate) {
-      // Calculate the number of days between check-in and check-out dates
-      const timeDifference = checkOutDate - checkInDate;
-      const numberOfDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+  // useEffect(() => {
+  //   const bookingData = JSON.parse(load("bookingData"));
 
-      // Calculate the total amount based on the price per night
-      const totalPrice = numberOfDays * price;
-      setTotalAmount(totalPrice);
-    }
-  };
+  //   if (bookingData) {
+  //     // Display the booked dates, total price, and total guests
+  //     setCheckInDate(new Date(bookingData.checkInDate));
+  //     setCheckOutDate(new Date(bookingData.checkOutDate));
+  //     setTotalAmount(bookingData.totalPrice);
+  //     setTotalGuests(bookingData.totalGuests);
+  //   }
+  // }, []);
 
 
   return (
@@ -122,42 +110,8 @@ export default function SpecificVenue() {
               <Card.Text>{parkingIncluded}</Card.Text>
               <Card.Text>{wifiIncluded}</Card.Text>
               <Card.Text>{breakfastIncluded}</Card.Text>
-              {/* Add other property displays here */}
             </Card.Body>
-            <div>
-              <h2>Select Check-In and Check-Out Dates:</h2>
-              <div className="date-picker">
-                <div className="date-picker-input">
-                  <label>Check-In Date:</label>
-                  <DatePicker
-                    selected={checkInDate}
-                    onChange={handleCheckInChange}
-                    minDate={new Date()}
-                    showDisabledMonthNavigation
-                  />
-                </div>
-                <div className="date-picker-input">
-                  <label>Check-Out Date:</label>
-                  <DatePicker
-                    selected={checkOutDate}
-                    onChange={handleCheckOutChange}
-                    minDate={checkInDate || new Date()}
-                    showDisabledMonthNavigation
-                  />
-                </div>
-              </div>
-              {checkInDate && checkOutDate && (
-                <p>
-                  You selected Check-In: {checkInDate.toDateString()}, Check-Out: {checkOutDate.toDateString()}
-                </p>
-              )}
-            </div>
-          <Button variant="primary" onClick={calculateTotalAmount}>
-            Calculate Total
-          </Button>
-          {totalAmount > 0 && (
-            <div>Total Amount: Nok {totalAmount}</div>
-          )}
+            <BookDateByCalendar maxGuests={maxGuests} price={price}/>
           </Card>
         </Col>
       </Row>

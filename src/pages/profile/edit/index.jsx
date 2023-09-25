@@ -8,6 +8,7 @@ import { Col, Container, Form, Row, Card, Button } from "react-bootstrap";
 import * as yup from 'yup';
 import { FetchSingleVenue } from "../../../posts/getSpecificVenueById";
 import { DeleteVenue } from "../../../posts/deleteVenue";
+import { RiDeleteBin5Fill } from 'react-icons/ri';
 
 
 const editSchema = yup.object().shape ({
@@ -228,7 +229,7 @@ export default function EditVenueFormListener () {
                                                         size="sm"
                                                         onClick={() => handleDeleteMedia(index)}
                                                     >
-                                                        Delete
+                                                        <RiDeleteBin5Fill/>
                                                     </Button>
                                                 </div>
 
