@@ -4,11 +4,14 @@ import { venuesUrl } from "../../components/constants/constantsUrl";
 import { Card, Container, Row, Col, Carousel } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import BookDateByCalendar from "../../components/form/bookVenue";
+import { load } from "../../components/localStorage";
 
 export default function SpecificVenue() {
   const { id } = useParams();
   const ownerUrl = "?_bookings=true&_owner=true";
   const { data, isLoading, isError } = useApi(`${venuesUrl}/${id}${ownerUrl}`);
+
+  const currentUser = load('user');
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -28,7 +31,6 @@ export default function SpecificVenue() {
     meta,
     owner,
     bookings
-    // Add other properties you want to display here
   } = data;
 
   // Check if media is an array and contains at least one element
@@ -66,6 +68,7 @@ export default function SpecificVenue() {
   //   }
   // }, []);
 
+  const isOwner = currentUser && currentUser.name === ownerName;
 
   return (
     <Container className="mb-4">
@@ -119,23 +122,22 @@ export default function SpecificVenue() {
       </Row>
       <Row>
         <Col>
-        {bookings ? (
+          {isOwner && bookings && bookings.length > 0 ? ( // Conditionally render booking information for the owner
             <div>
-                <h5>Booking Information</h5>
-                <ul>
-                    {bookings.map((booking, index) => (
-                        <li key={index}>
+              <h5>Booking Information</h5>
+              <ul>
+                {bookings.map((booking, index) => (
+                  <li key={index}>
                     From: {new Date(booking.dateFrom).toLocaleDateString()} - 
-                                        To: {new Date(booking.dateTo).toLocaleDateString()} | 
-                                        Guests: {booking.guests}
-                                    </li>
-                    ))}
-                </ul>
+                    To: {new Date(booking.dateTo).toLocaleDateString()} | 
+                    Guests: {booking.guests}
+                  </li>
+                ))}
+              </ul>
             </div>
-        ) : (
-            <p>Loading booking information...</p>
-        )}
+          ) : null}
         </Col>
+
       </Row>
     </Container>
   );
