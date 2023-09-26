@@ -3,16 +3,12 @@ import useApi from "../../components/hooks/useApi";
 import { venuesUrl } from "../../components/constants/constantsUrl";
 import { Card, Container, Row, Col, Carousel } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import BookDateByCalendar from "../../components/form/bookVenue";
 
 export default function SpecificVenue() {
   const { id } = useParams();
   const ownerUrl = "?_bookings=true&owner=true";
   const { data, isLoading, isError } = useApi(`${venuesUrl}/${id}${ownerUrl}`);
-
-//   const [index, setIndex] = useState(0);
-//   const handleSelect = (selectedIndex) =>{
-//     setIndex(selectedIndex)
-//   }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -50,6 +46,25 @@ export default function SpecificVenue() {
   const breakfastIncluded = meta && meta.breakfast
     ? "Breakfast: Yes"
     : "Breakfast: No";
+
+  
+
+  // const handleBookVenue = () => {
+  //   HandleBookVenue(checkInDate, checkOutDate, totalAmount, totalGuests, id, maxGuests);
+  // };
+
+  // useEffect(() => {
+  //   const bookingData = JSON.parse(load("bookingData"));
+
+  //   if (bookingData) {
+  //     // Display the booked dates, total price, and total guests
+  //     setCheckInDate(new Date(bookingData.checkInDate));
+  //     setCheckOutDate(new Date(bookingData.checkOutDate));
+  //     setTotalAmount(bookingData.totalPrice);
+  //     setTotalGuests(bookingData.totalGuests);
+  //   }
+  // }, []);
+
 
   return (
     <Container className="mb-4">
@@ -95,8 +110,8 @@ export default function SpecificVenue() {
               <Card.Text>{parkingIncluded}</Card.Text>
               <Card.Text>{wifiIncluded}</Card.Text>
               <Card.Text>{breakfastIncluded}</Card.Text>
-              {/* Add other property displays here */}
             </Card.Body>
+            <BookDateByCalendar maxGuests={maxGuests} price={price}/>
           </Card>
         </Col>
       </Row>

@@ -2,7 +2,7 @@ import { bookingUrl } from "../../components/constants/constantsUrl"
 import { load } from "../../components/localStorage"
 
 
-export async function CreateBooking(bookings) {
+export async function CreateBooking(bookingData) {
     const method = 'post'
     const token = load('token')
     const createBookingUrl = `${bookingUrl}`;
@@ -14,7 +14,7 @@ export async function CreateBooking(bookings) {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(bookings),
+            body: JSON.stringify(bookingData),
         });
 
         const bookingResult = await response.json();

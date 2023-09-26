@@ -2,12 +2,12 @@ import { venuesUrl } from "../../components/constants/constantsUrl";
 import { load } from "../../components/localStorage";
 
 
-export async function EditVenue() {
+export async function EditVenue(id, data) {
     const method = 'put';
-    const userName = load('user');
-    const { name } = userName;
-    const venueUpdateUrl = `${venuesUrl}/${name}`;
-    
+    const token = load('token');
+    // const { id } = userName;
+    const venueUpdateUrl = `${venuesUrl}/${id}`;
+
     try {
         const response = await fetch(venueUpdateUrl, {
             method,
@@ -15,7 +15,7 @@ export async function EditVenue() {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(venueUpdateUrl)
+            body: JSON.stringify(data)
         });
 
         if (response.ok) {

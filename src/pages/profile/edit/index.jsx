@@ -7,6 +7,8 @@ import { save } from "../../../components/localStorage";
 import { Col, Container, Form, Row, Card, Button } from "react-bootstrap";
 import * as yup from 'yup';
 import { FetchSingleVenue } from "../../../posts/getSpecificVenueById";
+import { DeleteVenue } from "../../../posts/deleteVenue";
+import { RiDeleteBin5Fill } from 'react-icons/ri';
 
 
 const editSchema = yup.object().shape ({
@@ -49,14 +51,13 @@ export default function EditVenueFormListener () {
 
 
     useEffect(() => {
-         // Fetch the venue data by ID from api method FetchSingleVenue
+         // Fetch the venue data by ID from api method FetchSingleVenue you wanted to edit or update
         async function fetchData () {
             setIsLoading(true);
             setIsError(false);
 
             try {
-                const venueData = await FetchSingleVenue(id);
-                console.log('Data being fetch from the server:', data);
+                const venueData = await FetchSingleVenue(venueId);
 
                 setInitialData(venueData);
                 setMediaUrls(venueData.media || []);
@@ -69,7 +70,7 @@ export default function EditVenueFormListener () {
         fetchData();
     }, [venueId]);
 
-
+       //This function will send the updated version of your venues 
     const onSubmit= async (data) => {
         setIsLoading(true);
         setIsError(false);
@@ -77,34 +78,38 @@ export default function EditVenueFormListener () {
 
         
         // Include media URLs in the data to send to the server
-        data. media = mediaUrls;
+        data.media = mediaUrls; // Use the updated media URLs here
 
 
         try {
             // Simulate an API update call; replace this with your actual API update logic
             const response = await EditVenue(venueId, data);
 
-            console.log('Data being sent to the server:', data);
+            // console.log('Data being sent to the server:', data);
+            // console.log(response);
 
             if (response.ok) {
-
+                
                 // Simulate a successful update response / Venue data updated successfully
-                const updatedVenueData = {...data};
+                const updatedVenueData = response.json;
 
                 // Save the venue data to localStorage or perform any other necessary actions
                 save('venueData', JSON.stringify(updatedVenueData));
-
-                // Redirect to the profile page or another appropriate page
-                navigate('/profile');
+                
+                
             } else {
                 setIsError(true);
-                alert('Failed tp update the venue. Please try again.')
+                // console.log('Failed+++ to update');
             }
         } catch (error) {
             setIsError(true);
             alert('Failed to update the venue. Please try again later.')
+        } finally {
+            setIsLoading(false) 
+            // Redirect to the profile page or another appropriate page
+            navigate('/profile');
         }
-        setIsLoading(false)
+              
     };
 
     // Function to handle adding a media URL to the list
@@ -117,10 +122,42 @@ export default function EditVenueFormListener () {
         }
     };
 
+    // Function to handle media deletion
+    const handleDeleteMedia = (index) => {
+        const updatedMediaUrls = [...mediaUrls];
+        updatedMediaUrls.splice(index, 1); // Remove the media item at the given index
+        setMediaUrls(updatedMediaUrls); // Update the mediaUrls state
+    };
+
     if (initialData === null) {
         // Render loading indicator or message while fetching data
         return <div>Loading...</div>;
     }
+
+    //execute Api function to delete the venue
+    const handleDelete = async () => {
+        if (window.confirm("Are you sure you want to delete this venue?")) {
+            try {
+                // Simulate an API delete call; replace this with your actual API delete logic
+                const response = await DeleteVenue(venueId);
+
+                if (response.ok) {
+                    // Delete the venue data from localStorage
+                    save('venueData', null);
+
+                    // Redirect to the profile page or another appropriate page after deletion
+                    navigate('/profile');
+                } else {
+                    setIsError(true);
+                    console.log('Failed to delete the venue');
+                }
+            } catch (error) {
+                setIsError(true);
+                console.error('API Error:', error);
+                alert('Failed to delete the venue. Please try again later.');
+            }
+        }
+    };
 
 
 
@@ -140,6 +177,7 @@ export default function EditVenueFormListener () {
                                         type="text"
                                         placeholder="Enter your venue title"
                                         {...register('name')}
+                                        defaultValue={initialData.name}
                                     />
                                     <Form.Text className="text-danger">
                                         {errors.name?.message}
@@ -152,6 +190,7 @@ export default function EditVenueFormListener () {
                                         rows={4}
                                         placeholder="Describe your venue"
                                         {...register('description')}
+                                        defaultValue={initialData.description}
                                     />
                                     <Form.Text className="text-danger">
                                         {errors.description?.message}
@@ -183,7 +222,17 @@ export default function EditVenueFormListener () {
                                         <h5>Uploaded Media:</h5>
                                         <ul>
                                             {mediaUrls.map((url, index) => (
-                                                <div key={index}>{url}</div>
+                                                <div key={index}>
+                                                    <span>{url}</span>
+                                                    <Button
+                                                        variant="danger"
+                                                        size="sm"
+                                                        onClick={() => handleDeleteMedia(index)}
+                                                    >
+                                                        <RiDeleteBin5Fill/>
+                                                    </Button>
+                                                </div>
+
                                             ))}
                                         </ul>
                                     </div>
@@ -199,6 +248,7 @@ export default function EditVenueFormListener () {
                                                         type="text"
                                                         placeholder="Country"
                                                         {...register('location.country')}
+                                                        defaultValue={initialData.location.country}
                                                     />
                                                     <Form.Text className="text-danger">
                                                         {errors.country?.message}
@@ -210,6 +260,7 @@ export default function EditVenueFormListener () {
                                                         type="text"
                                                         placeholder="Enter city"
                                                         {...register('location.city')}
+                                                        defaultValue={initialData.location.city}
                                                     />
                                                     <Form.Text className="text-danger">
                                                         {errors.city?.message}
@@ -228,6 +279,7 @@ export default function EditVenueFormListener () {
                                                         type="number"
                                                         placeholder="Price per night"
                                                         {...register('price')}
+                                                        defaultValue={initialData.price}
                                                     />
                                                     <Form.Text className="text-danger">
                                                         {errors.price?.message}
@@ -239,6 +291,7 @@ export default function EditVenueFormListener () {
                                                         type="number"
                                                         placeholder="Enter max.guest"
                                                         {...register('maxGuests')}
+                                                        defaultValue={initialData.maxGuests}
                                                     />
                                                     <Form.Text className="text-danger">
                                                         {errors.maxGuests?.message}
@@ -256,6 +309,7 @@ export default function EditVenueFormListener () {
                                                         type="checkbox"
                                                         label="Parking"
                                                         {...register('meta.parking')}
+                                                        defaultChecked={initialData.meta.parking} // Set the initial value
                                                     />
                                                     <Form.Text className="text-danger">
                                                         {errors.meta?.message}
@@ -266,6 +320,7 @@ export default function EditVenueFormListener () {
                                                         type="checkbox"
                                                         label="Wifi"
                                                         {...register('meta.wifi')}
+                                                        defaultChecked={initialData.meta.wifi}
                                                     />
                                                     <Form.Text className="text-danger">
                                                         {errors.meta?.message}
@@ -276,6 +331,7 @@ export default function EditVenueFormListener () {
                                                         type="checkbox"
                                                         label="Breakfast"
                                                         {...register('meta.breakfast')}
+                                                        defaultChecked={initialData.meta.breakfast}                                                        
                                                     />
                                                     <Form.Text className="text-danger">
                                                         {errors.meta?.message}
@@ -286,6 +342,7 @@ export default function EditVenueFormListener () {
                                                         type="checkbox"
                                                         label="Pets"
                                                         {...register('meta.pets')}
+                                                        defaultChecked={initialData.meta.pets}
                                                     />
                                                     <Form.Text className="text-danger">
                                                         {errors.meta?.message}
@@ -304,9 +361,12 @@ export default function EditVenueFormListener () {
                                 <Button variant="primary" type="submit" disabled={isLoading}>
                                     {isLoading ? 'Updating...' : 'Update'}
                                 </Button>
-                                {/* <Button variant="danger" onClick={handleDelete}>
+                                <Button variant="secondary" onClick={() => navigate('/profile')}>
+                                Close
+                                </Button>
+                                <Button variant="danger" onClick={handleDelete}>
                                   Delete
-                                </Button> */}
+                                </Button>
                                 {isError && (
                                     <div className="mt-2 text-danger">
                                         Failed to update venue. Please try again later.

@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Container, ListGroup, Image, Button } from "react-bootstrap";
 import { profileUrl } from "../../constants/constantsUrl";
 import useApi from "../../hooks/useApi";
 import { load } from "../../localStorage";
 import { Link } from "react-router-dom";
 import formatDate from "../../formatDate";
+import VenueWithBookingInfo from "../venueBookingsInfo";
 
 export default function VenuesDisplay () {
     const userData = load('user');
@@ -12,6 +13,7 @@ export default function VenuesDisplay () {
     const userVenuesUrl = `${name}?_venues=true&_owner=true&_media`;
 
     const {data, isLoading, isError} = useApi (`${profileUrl}${userVenuesUrl}`);
+
 
     if (isLoading) {
         return <div>
@@ -37,7 +39,7 @@ export default function VenuesDisplay () {
                             <Link to={`/venue/${venue.id}`}>
                                 <Card>
                                     <Card.Body>
-                                        <Card.Title>Venue ID: {venue.name}</Card.Title>
+                                        <Card.Title>{venue.name}</Card.Title>
                                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
                                             {venue.media && venue.media.length > 0 ? ( //Display the media and if it's an array, just display 1
                                                 <Image src={venue.media[0]} alt={`Your next distination: ${venue.id}`} style={{ maxWidth: '50%', maxHeight: '100%' }} />
@@ -45,14 +47,9 @@ export default function VenuesDisplay () {
                                                 <Image src="" alt="Placeholder Image" />
                                             )}
                                         </div>
+                    
                                         <Card.Text>
-                                            From: {formatDate(venue.dateFrom)}
-                                        </Card.Text>
-                                        <Card.Text>
-                                            To: {formatDate(venue.dateTo)}
-                                        </Card.Text>
-                                        <Card.Text>
-                                            Guests: {venue.guests}
+                                            Guests: {venue.maxGuests}
                                         </Card.Text>
                                         <Card.Text>
                                             Created: {formatDate(venue.created)}
@@ -60,6 +57,19 @@ export default function VenuesDisplay () {
                                         <Card.Text>
                                             Updated:{formatDate(venue.updated)}
                                         </Card.Text>
+                                        {/* {venueBookings[venue.id] && Array.isArray(venueBookings[venue.id]) && (
+                                            <div>
+                                                <h4>Bookings:</h4>
+                                                <ul>
+                                                {venueBookings[venue.id].map((booking) => (
+                                                    <li key={booking.id}>
+                                                    Date: {formatDate(booking.date)}, Guests: {booking.maxGuests}, Customer: {booking.customer}
+                                                    </li>
+                                                ))}
+                                                </ul>
+                                            </div>
+                                        )} */}
+                                        <VenueWithBookingInfo venueId={venue.id} />
                                     </Card.Body>
                                 </Card>
                             </Link>

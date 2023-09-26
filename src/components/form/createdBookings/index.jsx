@@ -64,6 +64,9 @@ export default function BookingsDisplay() {
                         />
                       )}
                     </div>
+                    {/* <Card.Text>
+                      Owner: {booking.venue.owner}
+                    </Card.Text> */}
                     <Card.Text>
                       From: {formatDate (booking.dateFrom)}
                     </Card.Text>
@@ -71,7 +74,7 @@ export default function BookingsDisplay() {
                       To: {formatDate(booking.dateTo)}
                     </Card.Text>
                     <Card.Text>
-                      Guests: {formatDate(booking.guests)}
+                      Guests: {booking.guests}
                     </Card.Text>
                     <Card.Text>
                       Total: NOK {booking.venue.price}

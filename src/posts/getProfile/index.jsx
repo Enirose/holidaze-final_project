@@ -19,7 +19,6 @@ export async function FetchUserProfile(user) {
       const userProfileData = await response.json();
       return userProfileData;
     } else {
-      // Handle non-200 status codes (e.g., 404, 500)
       throw new Error(`Failed to fetch user profile`);
     }
 
