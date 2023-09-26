@@ -1,15 +1,42 @@
 import {Container, Nav, Navbar, NavDropdown, Image} from 'react-bootstrap';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import "../../styles/custom.scss";
 import { load, remove } from '../localStorage';
+import { FetchUserProfile } from '../../posts/getProfile';
 
  export default function NavContainer() {
+  const [user, setUser] = useState({
+    name:'',
+    avatar:''
+  })
 
   const isLoggedIn = !!load('token');
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const token = load('token');
+        const userName = load('user');
+        const response = await FetchUserProfile(userName, token);
+
+        if (response) {
+          setUser(response);
+        } else {
+          console.error('Error fetching user profile');
+        }
+      } catch (error) {
+        console.error('Error fetching user profile', error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
 
   const handleLogout = () => {
     remove('user');
     remove('token');
+    remove('venueData')
   }
 
   return (
@@ -32,16 +59,17 @@ import { load, remove } from '../localStorage';
             {isLoggedIn && (
               <Nav.Item>
                 <Image
-                  src="https://www.almanac.com/sites/default/files/styles/or/public/image_nodes/rose-peach.jpg?itok=Y_6bVHKW" // Replace with your profile image URL
+                  src={user.avatar} 
                   roundedCircle
-                  width={32}
-                  height={32}
+                  width={50}
+                  height={50}
+                  className="m-1"
                   alt="User Image"
                 />
               </Nav.Item>
             )}
             {isLoggedIn && (
-              <NavDropdown title="User Profile" id="basic-nav-dropdown" className="custom-dropdown">
+              <NavDropdown title={user.name}  id="basic-nav-dropdown" className="custom-dropdown">
                 <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href='/' onClick={handleLogout}>Logout </NavDropdown.Item>
