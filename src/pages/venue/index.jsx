@@ -1,14 +1,17 @@
 import React from "react";
 import useApi from "../../components/hooks/useApi";
 import { venuesUrl } from "../../components/constants/constantsUrl";
-import { Card, Container, Row, Col, Carousel } from "react-bootstrap";
+import { Card, Container, Row, Col, Carousel, Dropdown, ListGroup } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import BookDateByCalendar from "../../components/form/bookVenue";
+import { load } from "../../components/localStorage";
 
 export default function SpecificVenue() {
   const { id } = useParams();
-  const ownerUrl = "?_bookings=true&owner=true";
+  const ownerUrl = "?_bookings=true&_owner=true";
   const { data, isLoading, isError } = useApi(`${venuesUrl}/${id}${ownerUrl}`);
+
+  const currentUser = load('user');
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -27,7 +30,7 @@ export default function SpecificVenue() {
     maxGuests,
     meta,
     owner,
-    // Add other properties you want to display here
+    bookings
   } = data;
 
   // Check if media is an array and contains at least one element
@@ -65,6 +68,7 @@ export default function SpecificVenue() {
   //   }
   // }, []);
 
+  const isOwner = currentUser && currentUser.name === ownerName;
 
   return (
     <Container className="mb-4">
@@ -113,7 +117,38 @@ export default function SpecificVenue() {
             </Card.Body>
             <BookDateByCalendar maxGuests={maxGuests} price={price}/>
           </Card>
+          
         </Col>
+      </Row>
+      <Row>
+        <Col>
+          {isOwner && bookings && bookings.length > 0 ? ( // Conditionally render booking information for the owner
+<Dropdown>
+      <Dropdown.Toggle variant="success" id="dropdown-basic">
+        Bookings Information
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu>
+        <ListGroup>
+          <ListGroup.Item>
+            <div>
+              <ul>
+                {bookings.map((booking, index) => (
+                  <li key={index}>
+                    From: {new Date(booking.dateFrom).toLocaleDateString()} -
+                    To: {new Date(booking.dateTo).toLocaleDateString()} |
+                    Guests: {booking.guests}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </ListGroup.Item>
+        </ListGroup>
+      </Dropdown.Menu>
+    </Dropdown>
+          ) : null}
+        </Col>
+
       </Row>
     </Container>
   );
