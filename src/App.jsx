@@ -21,12 +21,12 @@ export default function App() {
             <Route>
               <Route path="/" element={<Layout />}>
                 <Route index element={<HomePage/>} />
-                <Route path="/register" element={<RegisterListener/>} />
-                <Route path="/login" element={<LoginPage/>} />
-                <Route path="/venue/:id" element={<SpecificVenue/>} />
-                <Route path="/profile" element={<UserProfile/>} />
-                <Route path="/profile/create" element={<CreateVenueForm/>} />
-                <Route path="/profile/edit/:venueId" element={<EditVenueFormListener/>} />
+                <Route path="register" element={<RegisterListener/>} />
+                <Route path="login" element={<LoginPage/>} />
+                <Route path="venue/:id" element={<SpecificVenue/>} />
+                <Route path="profile" element={<UserProfile/>} />
+                <Route path="profile/create" element={<CreateVenueForm/>} />
+                <Route path="profile/edit/:venueId" element={<EditVenueFormListener/>} />
               </Route>
             </Route>
           </Routes>
