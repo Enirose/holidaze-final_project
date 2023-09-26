@@ -51,7 +51,7 @@ export default function EditVenueFormListener () {
 
 
     useEffect(() => {
-         // Fetch the venue data by ID from api method FetchSingleVenue
+         // Fetch the venue data by ID from api method FetchSingleVenue you wanted to edit or update
         async function fetchData () {
             setIsLoading(true);
             setIsError(false);
@@ -70,7 +70,7 @@ export default function EditVenueFormListener () {
         fetchData();
     }, [venueId]);
 
-
+       //This function will send the updated version of your venues 
     const onSubmit= async (data) => {
         setIsLoading(true);
         setIsError(false);
