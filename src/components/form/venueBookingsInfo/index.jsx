@@ -8,8 +8,7 @@ export default function VenueWithBookingInfo() {
   const { id } = useParams();
   const ownerUrl = "?_bookings=true&owner=true";
   const { data, isLoading, isError } = useApi(`${venuesUrl}/${id}${ownerUrl}`);
-
-
+  console.log(data);
 
 
 
@@ -26,6 +25,7 @@ export default function VenueWithBookingInfo() {
   }
 
   const { bookings } = data;
+  console.log(data);
 
   return (
     <Dropdown>
