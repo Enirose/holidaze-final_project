@@ -50,25 +50,9 @@ export default function SpecificVenue() {
     ? "Breakfast: Yes"
     : "Breakfast: No";
 
-  
-
-  // const handleBookVenue = () => {
-  //   HandleBookVenue(checkInDate, checkOutDate, totalAmount, totalGuests, id, maxGuests);
-  // };
-
-  // useEffect(() => {
-  //   const bookingData = JSON.parse(load("bookingData"));
-
-  //   if (bookingData) {
-  //     // Display the booked dates, total price, and total guests
-  //     setCheckInDate(new Date(bookingData.checkInDate));
-  //     setCheckOutDate(new Date(bookingData.checkOutDate));
-  //     setTotalAmount(bookingData.totalPrice);
-  //     setTotalGuests(bookingData.totalGuests);
-  //   }
-  // }, []);
 
   const isOwner = currentUser && currentUser.name === ownerName;
+  const emptyImageUrl = 'https://media.istockphoto.com/id/1128826884/vector/no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment.jpg?s=170667a&w=0&k=20&c=O9Y41QO7idN44o-VK5s7dBUqg-dhJZcyagMb8485BNU='
 
   return (
     <Container className="mb-4">
@@ -87,7 +71,7 @@ export default function SpecificVenue() {
                   </Carousel.Item>
                 ))}
               </Carousel>
-            ) : media && media.length === 1 ? ( // Check if media is defined and has exactly one element
+            ) : media && media.length === 1 ? (
               <Card.Img
                 variant="top"
                 src={media[0]}
@@ -96,7 +80,13 @@ export default function SpecificVenue() {
               />
             ) : (
               // Add a placeholder or message when media is empty
-              <div>No images available</div>
+              <Card.Img
+                variant="top"
+                src={emptyImageUrl}
+                alt={name}
+                className="mb-4 d-block h-10"
+              />
+              
             )}
             {/* <Card.Img
               variant="top"
@@ -146,7 +136,7 @@ export default function SpecificVenue() {
         </ListGroup>
       </Dropdown.Menu>
     </Dropdown>
-          ) : null}
+          ) : <div>No bookings available</div>}
         </Col>
 
       </Row>
