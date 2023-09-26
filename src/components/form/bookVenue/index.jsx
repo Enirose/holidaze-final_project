@@ -148,7 +148,7 @@ export default function BookDateByCalendar ({maxGuests, price}) {
                         <div>Total number of Guests: {totalGuests}</div>
                     </div>   
                     )}
-                    <Button variant="primary" onClick={reserveVenue}>
+                    <Button href="/profile" variant="primary" onClick={reserveVenue}>
                         Reserve
                     </Button>
                     {error && <div className="text-danger">{error}</div>}

@@ -7,7 +7,7 @@ import BookDateByCalendar from "../../components/form/bookVenue";
 
 export default function SpecificVenue() {
   const { id } = useParams();
-  const ownerUrl = "?_bookings=true&owner=true";
+  const ownerUrl = "?_bookings=true&_owner=true";
   const { data, isLoading, isError } = useApi(`${venuesUrl}/${id}${ownerUrl}`);
 
   if (isLoading) {
@@ -27,6 +27,7 @@ export default function SpecificVenue() {
     maxGuests,
     meta,
     owner,
+    bookings
     // Add other properties you want to display here
   } = data;
 
@@ -113,6 +114,27 @@ export default function SpecificVenue() {
             </Card.Body>
             <BookDateByCalendar maxGuests={maxGuests} price={price}/>
           </Card>
+          
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+        {bookings ? (
+            <div>
+                <h5>Booking Information</h5>
+                <ul>
+                    {bookings.map((booking, index) => (
+                        <li key={index}>
+                    From: {new Date(booking.dateFrom).toLocaleDateString()} - 
+                                        To: {new Date(booking.dateTo).toLocaleDateString()} | 
+                                        Guests: {booking.guests}
+                                    </li>
+                    ))}
+                </ul>
+            </div>
+        ) : (
+            <p>Loading booking information...</p>
+        )}
         </Col>
       </Row>
     </Container>
