@@ -5,12 +5,8 @@ import { venuesUrl } from "../../constants/constantsUrl";
 import { Dropdown, ListGroup } from "react-bootstrap";
 
 export default function VenueWithBookingInfo({venueId}) {
-  // const { id } = useParams();
   const ownerUrl = "?_bookings=true&owner=true";
   const { data, isLoading, isError } = useApi(`${venuesUrl}/${venueId}${ownerUrl}`);
-  console.log(data);
-
-
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -25,7 +21,6 @@ export default function VenueWithBookingInfo({venueId}) {
   }
 
   const { bookings } = data;
-  console.log(data);
 
   return (
     <Dropdown>
