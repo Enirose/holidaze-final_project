@@ -48,17 +48,16 @@ export default function HomePage () {
                 })
                 .map((venue) => (
                     <Col key={venue.id} md={3} className="mb-4">
-                    <Card className="h-100">
-                        <Card.Img variant="top" src={venue.media.length > 0 ? venue.media[0] : emptyImageUrl } alt={venue.name} className="mb-4 d-block" />
-                        <Card.Body>
-                        <Card.Title>{venue.name}</Card.Title>
-                        <Card.Text>{venue.location.country}</Card.Text>
-                        <Card.Text>{venue.price} kr/night</Card.Text>
-                        <Link to={`/venue/${venue.id}`}>
-                            <Button variant="primary">Check availability</Button>
+                        <Link to={`/venue/${venue.id}`} className="text-decoration-none">
+                            <Card className="h-100">
+                                <Card.Img variant="top" src={venue.media.length > 0 ? venue.media[0] : emptyImageUrl } alt={venue.name} className="mb-4 d-block" />
+                                <Card.Body>
+                                    <Card.Title>{venue.name}</Card.Title>
+                                    <Card.Text>{venue.location.country}</Card.Text>
+                                    <Card.Text>{venue.price} kr/night</Card.Text>
+                                </Card.Body>
+                            </Card>
                         </Link>
-                        </Card.Body>
-                    </Card>
                     </Col>
                 ))}
             </Row>

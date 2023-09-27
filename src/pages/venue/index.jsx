@@ -1,7 +1,7 @@
 import React from "react";
 import useApi from "../../components/hooks/useApi";
 import { venuesUrl } from "../../components/constants/constantsUrl";
-import { Card, Container, Row, Col, Carousel, Dropdown, ListGroup } from "react-bootstrap";
+import { Card, Container, Row, Col, Carousel, Dropdown, ListGroup, Tabs, Tab } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import BookDateByCalendar from "../../components/form/bookVenue";
 import { load } from "../../components/localStorage";
@@ -42,6 +42,7 @@ export default function SpecificVenue() {
   // Check if location exists and contains the country and city property
   const locationCountry = location && location.country ? location.country : '';
   const locationCity = location && location.city ? location.city : '';
+  const locationAddress = location && location.address ? location.address : '';
 
   // Check if meta object exists and extract properties
   const parkingIncluded = meta && meta.parking ? "Parking: Yes" : "Parking: No";
@@ -58,7 +59,7 @@ export default function SpecificVenue() {
     <Container className="mb-4">
       <Row>
         <Col>
-          <Card key={id} className="mb-4">
+          <Card key={id} className="m-4">
             {media && media.length > 1 ? (
               <Carousel>
                 {media.map((image, index) => (
@@ -88,57 +89,67 @@ export default function SpecificVenue() {
               />
               
             )}
-            {/* <Card.Img
-              variant="top"
-              src={mediaUrl}
-              alt={name}
-              className="mb-4 d-block h-10"
-            /> */}
-            <Card.Body>
-              <Card.Title>{name}</Card.Title>
-              <Card.Text>{description}</Card.Text>
-              <Card.Text>Owner: {ownerName}</Card.Text> {/* Display owner's name or a message if not available */}
-              <Card.Text>Location: {locationCity},  {locationCountry}</Card.Text>
-              <Card.Text>Price per Night: Nok {price} </Card.Text>
-              <Card.Text>Max Guests: {maxGuests}</Card.Text>
-              <Card.Text>{parkingIncluded}</Card.Text>
-              <Card.Text>{wifiIncluded}</Card.Text>
-              <Card.Text>{breakfastIncluded}</Card.Text>
-            </Card.Body>
-            <BookDateByCalendar maxGuests={maxGuests} price={price}/>
           </Card>
-          
         </Col>
       </Row>
       <Row>
+          <Tabs
+            defaultActiveKey="description"
+            id="justify-tab-example"
+            className="mb-3"
+            justify
+          >
+            <Tab eventKey="description" title="Description">
+              <h1>{name}</h1>
+              <div>{description}</div>
+            </Tab>
+            <Tab eventKey="information" title="Information">
+              <h5>Location: {locationCity},  {locationCountry}</h5>
+              <div>Address: {locationAddress}</div>
+              <div>Price per Night: Nok {price} </div>
+              <div>Max Guests: {maxGuests}</div>
+              <div>{parkingIncluded}</div>
+              <div>{wifiIncluded}</div>
+              <div>{breakfastIncluded}</div>
+            </Tab>
+            
+          </Tabs>
+        </Row>
+      <Row m={4}>
+          <BookDateByCalendar maxGuests={maxGuests} price={price}/>
+        </Row>
+      <Row>
         <Col>
-          {isOwner && bookings && bookings.length > 0 ? ( // Conditionally render booking information for the owner
-<Dropdown>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
-        Bookings Information
-      </Dropdown.Toggle>
+          {isOwner ? (
+            bookings && bookings.length > 0 ? (
+              <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  Bookings Information
+                </Dropdown.Toggle>
 
-      <Dropdown.Menu>
-        <ListGroup>
-          <ListGroup.Item>
-            <div>
-              <ul>
-                {bookings.map((booking, index) => (
-                  <li key={index}>
-                    From: {new Date(booking.dateFrom).toLocaleDateString()} -
-                    To: {new Date(booking.dateTo).toLocaleDateString()} |
-                    Guests: {booking.guests}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </ListGroup.Item>
-        </ListGroup>
-      </Dropdown.Menu>
-    </Dropdown>
-          ) : <div>No bookings available</div>}
+                <Dropdown.Menu>
+                  <ListGroup>
+                    <ListGroup.Item>
+                      <div>
+                        <ul>
+                          {bookings.map((booking, index) => (
+                            <li key={index}>
+                              From: {new Date(booking.dateFrom).toLocaleDateString()} -
+                              To: {new Date(booking.dateTo).toLocaleDateString()} |
+                              Guests: {booking.guests}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </ListGroup.Item>
+                  </ListGroup>
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : (
+              <div>No bookings available</div>
+            )
+          ) : null}
         </Col>
-
       </Row>
     </Container>
   );
