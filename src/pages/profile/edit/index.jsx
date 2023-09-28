@@ -28,7 +28,6 @@ const editSchema = yup.object().shape ({
         .typeError('Enter number of guest')
         .min(1, "Venue must room at least 1 guest")
         .required('Max Guest is required'),
-
     location: yup.object()
         .shape({
             country: yup.string().required('Country is required'),
@@ -43,15 +42,11 @@ export default function EditVenueFormListener () {
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
     const [initialData, setInitialData] = useState(null)
-
-
     const {register, handleSubmit, formState: {errors}, setValue, getValues } = useForm({
         resolver: yupResolver(editSchema),
     });
 
-
-    useEffect(() => {
-         // Fetch the venue data by ID from api method FetchSingleVenue you wanted to edit or update
+    useEffect(() => {  // Fetch the venue data by ID from api method FetchSingleVenue you wanted to edit or update
         async function fetchData () {
             setIsLoading(true);
             setIsError(false);
@@ -70,46 +65,30 @@ export default function EditVenueFormListener () {
         fetchData();
     }, [venueId]);
 
-       //This function will send the updated version of your venues 
-    const onSubmit= async (data) => {
+    const onSubmit= async (data) => {   //This function will send the updated version of your venues 
         setIsLoading(true);
-        setIsError(false);
-        console.log('Data being sent to the server');
-
+        setIsError(false);        
         
-        // Include media URLs in the data to send to the server
-        data.media = mediaUrls; // Use the updated media URLs here
+        data.media = mediaUrls; // Include media URLs in the data to send to the server
 
-
-        try {
-            // Simulate an API update call; replace this with your actual API update logic
-            const response = await EditVenue(venueId, data);
-
-            // console.log('Data being sent to the server:', data);
-            // console.log(response);
-
+        try {        
+            const response = await EditVenue(venueId, data); 
             if (response.ok) {
                 
                 // Simulate a successful update response / Venue data updated successfully
                 const updatedVenueData = response.json;
-
-                // Save the venue data to localStorage or perform any other necessary actions
                 save('venueData', JSON.stringify(updatedVenueData));
-                
-                
+                               
             } else {
                 setIsError(true);
-                // console.log('Failed+++ to update');
             }
         } catch (error) {
             setIsError(true);
             alert('Failed to update the venue. Please try again later.')
         } finally {
             setIsLoading(false) 
-            // Redirect to the profile page or another appropriate page
             navigate('/profile');
-        }
-              
+        }              
     };
 
     // Function to handle adding a media URL to the list
@@ -122,30 +101,23 @@ export default function EditVenueFormListener () {
         }
     };
 
-    // Function to handle media deletion
-    const handleDeleteMedia = (index) => {
+    const handleDeleteMedia = (index) => {  // Function to handle media deletion before updating it
         const updatedMediaUrls = [...mediaUrls];
         updatedMediaUrls.splice(index, 1); // Remove the media item at the given index
         setMediaUrls(updatedMediaUrls); // Update the mediaUrls state
     };
 
     if (initialData === null) {
-        // Render loading indicator or message while fetching data
         return <div>Loading...</div>;
     }
 
-    //execute Api function to delete the venue
-    const handleDelete = async () => {
+    const handleDelete = async () => { //execute Api function to delete the venue
         if (window.confirm("Are you sure you want to delete this venue?")) {
             try {
-                // Simulate an API delete call; replace this with your actual API delete logic
                 const response = await DeleteVenue(venueId);
 
                 if (response.ok) {
-                    // Delete the venue data from localStorage
                     save('venueData', null);
-
-                    // Redirect to the profile page or another appropriate page after deletion
                     navigate('/profile');
                 } else {
                     setIsError(true);
@@ -159,17 +131,13 @@ export default function EditVenueFormListener () {
         }
     };
 
-
-
-
-
     return(
         <Container>
             <Row>
                 <Col>
-                    <Card>
+                    <Card className="m-4 mb-5">
                         <Card.Body>
-                            <h1>edit</h1>
+                            <h1>Update venue!</h1>
                             <Form onSubmit={handleSubmit(onSubmit)}>
                                 <Form.Group controlId="formTitle">
                                     <Form.Label>Title</Form.Label>
@@ -214,16 +182,19 @@ export default function EditVenueFormListener () {
                                     <Form.Text className="text-danger">
                                         {errors.media?.message}
                                     </Form.Text>
-                                </Form.Group>
-                                
+                                </Form.Group>                                
                                 {/* Display uploaded media URLs as an array */}
                                 {mediaUrls.length > 0 && (
                                     <div className="mb-3">
                                         <h5>Uploaded Media:</h5>
-                                        <ul>
+                                        <div className="d-flex justify-content">
                                             {mediaUrls.map((url, index) => (
-                                                <div key={index}>
-                                                    <span>{url}</span>
+                                                <div key={index} className="m-2">
+                                                    <img
+                                                        src={url}
+                                                        alt={`Media ${index + 1}`}
+                                                        style={{ maxWidth: '100px', maxHeight: '50px' }}
+                                                    />
                                                     <Button
                                                         variant="danger"
                                                         size="sm"
@@ -232,12 +203,11 @@ export default function EditVenueFormListener () {
                                                         <RiDeleteBin5Fill/>
                                                     </Button>
                                                 </div>
-
                                             ))}
-                                        </ul>
+                                        </div>
                                     </div>
                                 )}
-                                <Row>
+                                <Row className="mt-3">
                                     <Col>
                                         <Card>
                                             <Card.Body>
@@ -350,15 +320,11 @@ export default function EditVenueFormListener () {
                                                 </Form.Group>
                                             </Card.Body>
                                         </Card>
-                                    </Col> 
-                                    
-                                    
-                                </Row>
-
-                            
-                                {/* Add similar Form.Group elements for other fields */}
-                                
-                                <Button variant="primary" type="submit" disabled={isLoading}>
+                                    </Col>                                                                         
+                                </Row>                                
+                                <Row>
+                                    <Col>
+                                                <Button variant="primary" type="submit" disabled={isLoading}>
                                     {isLoading ? 'Updating...' : 'Update'}
                                 </Button>
                                 <Button variant="secondary" onClick={() => navigate('/profile')}>
@@ -372,6 +338,8 @@ export default function EditVenueFormListener () {
                                         Failed to update venue. Please try again later.
                                     </div>
                                 )}
+                                    </Col>
+                                </Row>
                             </Form>
                         </Card.Body>
                     </Card>
@@ -379,5 +347,4 @@ export default function EditVenueFormListener () {
             </Row>
         </Container>
     )
-
 }

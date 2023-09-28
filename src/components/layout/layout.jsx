@@ -9,7 +9,7 @@ export default function Layout () {
     return (
         <div>
             <NavContainer/>
-            <Outlet/>
+            <Outlet style={{minHeight: "100vh"}}/>
             <Footer/>
         </div>
     )

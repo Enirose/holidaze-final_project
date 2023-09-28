@@ -1,11 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col, Row, Form, Button } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { CreateBooking } from "../../../posts/create/createBooking";
-
-
 
 export default function BookDateByCalendar ({maxGuests, price}) {
   const [checkInDate, setCheckInDate] = useState(null);
@@ -15,6 +13,7 @@ export default function BookDateByCalendar ({maxGuests, price}) {
   const [totalGuests, setTotalGuests] = useState(0);
   const [error, setError] = useState(null);
   const {id} = useParams();
+  const navigate = useNavigate();
 
   const handleCheckInChange = (date) => {
     setCheckInDate(date);
@@ -44,25 +43,45 @@ export default function BookDateByCalendar ({maxGuests, price}) {
 
 
 
-    const calculateTotalAmount = () => {
-        if (checkInDate && checkOutDate) {
-        // Validate that check-out date is after check-in date
-            if (checkOutDate > checkInDate) {
-                // Calculate the number of days between check-in and check-out dates
-                const timeDifference = checkOutDate - checkInDate;
-                const numberOfDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+    // const calculateTotalAmount = () => {
+    //     if (checkInDate && checkOutDate) {
+    //     // Validate that check-out date is after check-in date
+    //         if (checkOutDate > checkInDate) {
+    //             // Calculate the number of days between check-in and check-out dates
+    //             const timeDifference = checkOutDate - checkInDate;
+    //             const numberOfDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
 
-                // Calculate the total amount based on the price per night
-                const totalPrice = numberOfDays * price * guests;
-                setTotalAmount(totalPrice);
+    //             // Calculate the total amount based on the price per night
+    //             const totalPrice = numberOfDays * price * guests;
+    //             setTotalAmount(totalPrice);
 
-                // Update total guests
-                setTotalGuests(guests);
-            } else {
-                setError("Check-out date must be after check-in date.");
-            }
-        }
-    };
+    //             // Update total guests
+    //             setTotalGuests(guests);
+    //         } else {
+    //             setError("Check-out date must be after check-in date.");
+    //         }
+    //     }
+    // };
+    useEffect(() => {
+    // Calculate total amount whenever check-in, check-out dates, or guests change
+    if (checkInDate && checkOutDate) {
+      // Validate that check-out date is after check-in date
+      if (checkOutDate > checkInDate) {
+        // Calculate the number of days between check-in and check-out dates
+        const timeDifference = checkOutDate - checkInDate;
+        const numberOfDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+        // Calculate the total amount based on the price per night
+        const totalPrice = numberOfDays * price * guests;
+        setTotalAmount(totalPrice);
+
+        // Update total guests
+        setTotalGuests(guests);
+      } else {
+        setError("Check-out date must be after check-in date.");
+      }
+    }
+  }, [checkInDate, checkOutDate, guests, price])
 
 
     const reserveVenue = async () => {
@@ -77,18 +96,15 @@ export default function BookDateByCalendar ({maxGuests, price}) {
             dateFrom: checkInDate.toISOString(),
             dateTo: checkOutDate.toISOString(),
             guests,
-            venueId: id, // Use the venueId from route params
+            venueId: id, 
         };
 
         // Call the API to create the booking
         const bookingResult = await CreateBooking (bookingData);
 
         if (bookingResult) {
-        // Save the booking data to localStorage if needed
-        // Example: localStorage.setItem('bookingData', JSON.stringify(bookingData));
-
-            // Display a success message or perform any other actions
             alert("Reservation successful!");
+            navigate('/profile')
         } else {
             setError("Reservation failed. Please try again later.");
         }
@@ -98,30 +114,32 @@ export default function BookDateByCalendar ({maxGuests, price}) {
   return (
     <Row>
         <Col>
-            <Card>
+            <Card className="date-range-card">
                 <Card.Body>
                     <div>
-                        <h2>Select Check-In and Check-Out Dates:</h2>
+                        <h4>Select Check-In and Check-Out Dates:</h4>
                         <div className="date-picker">
                             <div className="date-picker-input">
-                            <label>Check-In Date:</label>
-                            <DatePicker
-                                selected={checkInDate}
-                                onChange={handleCheckInChange}
-                                minDate={new Date()}
-                                showDisabledMonthNavigation
-                            />
+                                <label>Check-In Date:</label>
+                                <DatePicker
+                                    selected={checkInDate}
+                                    onChange={handleCheckInChange}
+                                    minDate={new Date()}
+                                    showDisabledMonthNavigation
+                                    className="m-1"
+                                />
                             </div>
                             <div className="date-picker-input">
-                            <label>Check-Out Date:</label>
-                            <DatePicker
-                                selected={checkOutDate}
-                                onChange={handleCheckOutChange}
-                                minDate={checkInDate || new Date()}
-                                showDisabledMonthNavigation
-                            />
+                                <label>Check-Out Date:</label>
+                                <DatePicker
+                                    selected={checkOutDate}
+                                    onChange={handleCheckOutChange}
+                                    minDate={checkInDate || new Date()}
+                                    showDisabledMonthNavigation
+                                    className="m-1"
+                                />
+                            </div>
                         </div>
-                    </div>
                         {checkInDate && checkOutDate && (
                             <p>
                             You selected Check-In: {checkInDate.toDateString()}, Check-Out: {checkOutDate.toDateString()}
@@ -134,13 +152,17 @@ export default function BookDateByCalendar ({maxGuests, price}) {
                             type="number"
                             value={guests}
                             onChange={handleGuestsChange}
-                            min={1} // Minimum value allowed
-                            max={maxGuests} // Maximum value allowed
+                            min={1}
+                            max={maxGuests}
+                            className="shortInput"
                         />
                         {error && <div className="text-danger">{error}</div>}
                     </Form.Group>
-                    <Button variant="primary" onClick={calculateTotalAmount}>
+                    {/* <Button variant="primary" onClick={calculateTotalAmount}>
                         Calculate Total
+                    </Button> */}
+                    <Button className="mt-3" variant="primary" onClick={reserveVenue}>
+                        Reserve
                     </Button>
                     {totalAmount > 0 && (
                     <div>
@@ -148,10 +170,6 @@ export default function BookDateByCalendar ({maxGuests, price}) {
                         <div>Total number of Guests: {totalGuests}</div>
                     </div>   
                     )}
-                    <Button href="/profile" variant="primary" onClick={reserveVenue}>
-                        Reserve
-                    </Button>
-                    {error && <div className="text-danger">{error}</div>}
                 </Card.Body>
             </Card>
         </Col>

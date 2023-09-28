@@ -41,32 +41,36 @@ export default function UserProfileListener() {
 
   return (
     <Container className="justify-content-md-center">
-      <Row className="justify-content-md-center" md={5}>
-        <Image src={user.avatar} roundedCircle />
+      <Row className="justify-content-center" mt={4}>
+        <Image src={user.avatar} roundedCircle className='avatar' alt="User Profile {user.name}"/>
       </Row>
-      <Row className="justify-content-md-center">
+      <Row  className='d-flex justify-content-center'>
         <Col md={5}>
           <Card>
             <Card.Body>
-              <Card.Title>{user.name}</Card.Title>
-              <Card.Text>email : {user.email}</Card.Text>
+              <div className="text-center">
+                <Card.Title>{user.name}</Card.Title>
+                <Card.Text>Email: {user.email}</Card.Text>
+              </div>
               <Row>
-                <Col>
-                  <Button variant="primary" onClick={handleUpdateAvatar}>
-                    Update Avatar
-                  </Button>
-                </Col>
-                <Col>
-                  <Button href="/profile/create" variant="primary">
-                    Create Venue
-                  </Button>
-                </Col>
+                 <div className='d-flex justify-content-center mt-3'>
+                  <Col className='d-flex justify-content-center'>
+                    <Button variant="primary" onClick={handleUpdateAvatar}>
+                      Update Avatar
+                    </Button>
+                  </Col>
+                  <Col className='d-flex justify-content-center'>
+                    <Button href="/profile/create" variant="primary">
+                      Create Venue
+                    </Button>
+                  </Col>
+                </div>
               </Row>
             </Card.Body>
           </Card>
         </Col>
       </Row>
-      <Row className="justify-content-md-center" mb={2}>
+      <Row className="justify-content-md-center mt-3 mb-5">
         <Col md={10}>
           <Tabs
             defaultActiveKey="Venue"

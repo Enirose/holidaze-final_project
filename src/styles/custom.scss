@@ -1,6 +1,13 @@
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
+@import "../styles/bookVenue.scss";
+@import "../styles/profile.scss";
 
 .card-img-top {
-    height: 20rem;
+    height: 15rem;
     object-fit: cover;
+}
+
+.card {
+    box-shadow: 10px 10px 7px rgb(174, 194, 183);
+    margin-bottom: 20px;
 }

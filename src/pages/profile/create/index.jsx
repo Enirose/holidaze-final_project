@@ -6,6 +6,8 @@ import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CreateVenue } from '../../../posts/create/createVenue';
+import { RiDeleteBin5Fill } from 'react-icons/ri';
+
 
 const schema = yup.object().shape({
     name: yup
@@ -37,8 +39,6 @@ export default function CreateVenueFormListener() {
     const [mediaUrls, setMediaUrls] = useState(''); // State variable to store media URLs
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
-    
-
     const { register, handleSubmit, formState: { errors }, setValue, getValues } = useForm({
         resolver: yupResolver(schema),
     });
@@ -50,19 +50,12 @@ export default function CreateVenueFormListener() {
         console.log('Data being sent to the server:', data)
         data.media = mediaUrls;
 
-        // // // Filter out empty media URLs before submitting
-        // const mediaArray = data.media.filter((url) => url.trim() !== '');
-        
-        
-
         try {
             const venueResult = await CreateVenue(data);
             
             if (venueResult) {
                 // Save the venue data to localStorage or perform any other necessary actions
                 localStorage.setItem('venueData', JSON.stringify(venueResult));
-                
-                // Redirect to the profile page or another appropriate page
                 navigate('/profile');
             } else {
                 setIsError(true);
@@ -85,12 +78,18 @@ export default function CreateVenueFormListener() {
         }
     };
 
+    const handleDeleteMedia = (index) => {  // Function to handle media deletion before updating it
+        const updatedMediaUrls = [...mediaUrls];
+        updatedMediaUrls.splice(index, 1); // Remove the media item at the given index
+        setMediaUrls(updatedMediaUrls); // Update the mediaUrls state
+    };
+
 
     return (
         <Container>
             <Row>
                 <Col>
-                    <Card>
+                    <Card className='m-4 mb-5'>
                         <Card.Body>
                             <h1> Create your venue</h1>
                             <Form onSubmit={handleSubmit(onSubmit)}>
@@ -141,14 +140,27 @@ export default function CreateVenueFormListener() {
                                 {mediaUrls.length > 0 && (
                                     <div className="mb-3">
                                         <h5>Uploaded Media:</h5>
-                                        <ul>
+                                        <div className="d-flex">
                                             {mediaUrls.map((url, index) => (
-                                                <div key={index}>{url}</div>
+                                                <div key={index} className='m-2'>
+                                                    <img
+                                                        src={url}
+                                                        alt={`Media ${index + 1}`}
+                                                        style={{ maxWidth: '100px', maxHeight: '50px' }}
+                                                    />
+                                                    <Button
+                                                        variant="danger"
+                                                        size="sm"
+                                                        onClick={() => handleDeleteMedia(index)}
+                                                    >
+                                                        <RiDeleteBin5Fill/>
+                                                    </Button>
+                                                </div>
                                             ))}
-                                        </ul>
+                                        </div>
                                     </div>
                                 )}
-                                <Row>
+                                <Row className='mt-3'>
                                     <Col>
                                         <Card>
                                             <Card.Body>

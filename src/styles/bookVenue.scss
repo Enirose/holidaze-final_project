@@ -1,0 +1,48 @@
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
+.date-picker {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.date-picker-input {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    /* Adjust the margin as needed */
+}
+
+
+.date-picker-input label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+
+.date-picker-input .react-datepicker-wrapper {
+    width: 45%;
+
+}
+
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+
+.action-buttons button {
+    flex: 1;
+    margin: 0 5px;
+
+}
+
+.date-range-card {
+    box-shadow: 10px 10px 7px rgb(174, 194, 183);
+}
+
+.shortInput {
+    width: 80px;
+}

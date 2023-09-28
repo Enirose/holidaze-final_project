@@ -1,7 +1,7 @@
 import React from "react";
 import useApi from "../../components/hooks/useApi";
 import { venuesUrl } from "../../components/constants/constantsUrl";
-import { Card, Container, Row, Col, Carousel, Dropdown, ListGroup } from "react-bootstrap";
+import { Card, Container, Row, Col, Carousel, Dropdown, ListGroup, Tabs, Tab } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import BookDateByCalendar from "../../components/form/bookVenue";
 import { load } from "../../components/localStorage";
@@ -10,7 +10,6 @@ export default function SpecificVenue() {
   const { id } = useParams();
   const ownerUrl = "?_bookings=true&_owner=true";
   const { data, isLoading, isError } = useApi(`${venuesUrl}/${id}${ownerUrl}`);
-
   const currentUser = load('user');
 
   if (isLoading) {
@@ -30,11 +29,8 @@ export default function SpecificVenue() {
     maxGuests,
     meta,
     owner,
-    bookings
+    bookings,
   } = data;
-
-  // Check if media is an array and contains at least one element
-//   const mediaUrl = Array.isArray(media) && media.length > 1 ? media[0] : '';
 
   // Check if owner exists and contains a name property
   const ownerName = owner && owner.name ? owner.name : 'Owner information not available';
@@ -42,6 +38,7 @@ export default function SpecificVenue() {
   // Check if location exists and contains the country and city property
   const locationCountry = location && location.country ? location.country : '';
   const locationCity = location && location.city ? location.city : '';
+  const locationAddress = location && location.address ? location.address : '';
 
   // Check if meta object exists and extract properties
   const parkingIncluded = meta && meta.parking ? "Parking: Yes" : "Parking: No";
@@ -50,44 +47,29 @@ export default function SpecificVenue() {
     ? "Breakfast: Yes"
     : "Breakfast: No";
 
-  
-
-  // const handleBookVenue = () => {
-  //   HandleBookVenue(checkInDate, checkOutDate, totalAmount, totalGuests, id, maxGuests);
-  // };
-
-  // useEffect(() => {
-  //   const bookingData = JSON.parse(load("bookingData"));
-
-  //   if (bookingData) {
-  //     // Display the booked dates, total price, and total guests
-  //     setCheckInDate(new Date(bookingData.checkInDate));
-  //     setCheckOutDate(new Date(bookingData.checkOutDate));
-  //     setTotalAmount(bookingData.totalPrice);
-  //     setTotalGuests(bookingData.totalGuests);
-  //   }
-  // }, []);
 
   const isOwner = currentUser && currentUser.name === ownerName;
+  const emptyImageUrl = 'https://media.istockphoto.com/id/1128826884/vector/no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment.jpg?s=170667a&w=0&k=20&c=O9Y41QO7idN44o-VK5s7dBUqg-dhJZcyagMb8485BNU='
 
   return (
     <Container className="mb-4">
       <Row>
         <Col>
-          <Card key={id} className="mb-4">
+          <Card key={id} className="m-4">
             {media && media.length > 1 ? (
               <Carousel>
                 {media.map((image, index) => (
                   <Carousel.Item key={index} interval={5000}>
                     <img
-                      className="d-block w-100 h-10"
+                      className="d-block w-100 h-100"
                       src={image}
                       alt={name}
+                      style={{ objectFit: 'cover' }} 
                     />
                   </Carousel.Item>
                 ))}
               </Carousel>
-            ) : media && media.length === 1 ? ( // Check if media is defined and has exactly one element
+            ) : media && media.length === 1 ? (
               <Card.Img
                 variant="top"
                 src={media[0]}
@@ -95,63 +77,73 @@ export default function SpecificVenue() {
                 className="mb-4 d-block h-10"
               />
             ) : (
-              // Add a placeholder or message when media is empty
-              <div>No images available</div>
+              <Card.Img // placeholder or message when media is empty
+                variant="top"
+                src={emptyImageUrl}
+                alt={name}
+                className="mb-4 d-block h-10"
+              />
             )}
-            {/* <Card.Img
-              variant="top"
-              src={mediaUrl}
-              alt={name}
-              className="mb-4 d-block h-10"
-            /> */}
-            <Card.Body>
-              <Card.Title>{name}</Card.Title>
-              <Card.Text>{description}</Card.Text>
-              <Card.Text>Owner: {ownerName}</Card.Text> {/* Display owner's name or a message if not available */}
-              <Card.Text>Location: {locationCity},  {locationCountry}</Card.Text>
-              <Card.Text>Price per Night: Nok {price} </Card.Text>
-              <Card.Text>Max Guests: {maxGuests}</Card.Text>
-              <Card.Text>{parkingIncluded}</Card.Text>
-              <Card.Text>{wifiIncluded}</Card.Text>
-              <Card.Text>{breakfastIncluded}</Card.Text>
-            </Card.Body>
-            <BookDateByCalendar maxGuests={maxGuests} price={price}/>
-          </Card>
-          
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          {isOwner && bookings && bookings.length > 0 ? ( // Conditionally render booking information for the owner
-<Dropdown>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
-        Bookings Information
-      </Dropdown.Toggle>
-
-      <Dropdown.Menu>
-        <ListGroup>
-          <ListGroup.Item>
-            <div>
-              <ul>
-                {bookings.map((booking, index) => (
-                  <li key={index}>
-                    From: {new Date(booking.dateFrom).toLocaleDateString()} -
-                    To: {new Date(booking.dateTo).toLocaleDateString()} |
-                    Guests: {booking.guests}
-                  </li>
-                ))}
-              </ul>
+            <div className="m-3">
+            <Tabs
+              defaultActiveKey="description"
+              id="justify-tab-example"
+              className="mb-3"
+              justify
+            >
+              <Tab eventKey="description" title="Description">
+                <h1>{name}</h1>
+                <div>{description}</div>
+              </Tab>
+              <Tab eventKey="information" title="Information">
+                <h3>Location: {locationCity},  {locationCountry}</h3>
+                <h5>Address: {locationAddress}</h5>
+                <h4>Owner: {ownerName}</h4>
+                <div>Price per Night: Nok {price} </div>
+                <div>Max Guests: {maxGuests}</div>
+                <div>{parkingIncluded}</div>
+                <div>{wifiIncluded}</div>
+                <div>{breakfastIncluded}</div>
+              </Tab>
+            </Tabs>
             </div>
-          </ListGroup.Item>
-        </ListGroup>
-      </Dropdown.Menu>
-    </Dropdown>
-          ) : null}
+          </Card>
         </Col>
+        <Col lg={5} className="mt-4">
+          <BookDateByCalendar maxGuests={maxGuests} price={price}/>
+            <div>
+                {isOwner ? ( bookings && bookings.length > 0 ? (
+                  <Dropdown>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                      Bookings Information
+                    </Dropdown.Toggle>
 
+                    <Dropdown.Menu>
+                      <ListGroup>
+                        <ListGroup.Item>
+                          <div>
+                            <ul>
+                              {bookings.map((booking, index) => (
+                                <li key={index}>
+                                  From: {new Date(booking.dateFrom).toLocaleDateString()} -
+                                  To: {new Date(booking.dateTo).toLocaleDateString()} |
+                                  Guests: {booking.guests}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </ListGroup.Item>
+                      </ListGroup>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                ) : (
+                  <div>No bookings available</div>
+                )
+              ) : null}
+            </div>
+        </Col>
       </Row>
     </Container>
   );
 }
-
 
