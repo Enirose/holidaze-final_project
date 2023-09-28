@@ -160,7 +160,7 @@ export default function CreateVenueFormListener() {
                                         </div>
                                     </div>
                                 )}
-                                <Row>
+                                <Row className='mt-3'>
                                     <Col>
                                         <Card>
                                             <Card.Body>

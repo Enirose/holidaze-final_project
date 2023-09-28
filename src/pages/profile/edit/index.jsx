@@ -207,7 +207,7 @@ export default function EditVenueFormListener () {
                                         </div>
                                     </div>
                                 )}
-                                <Row>
+                                <Row className="mt-3">
                                     <Col>
                                         <Card>
                                             <Card.Body>
@@ -322,7 +322,9 @@ export default function EditVenueFormListener () {
                                         </Card>
                                     </Col>                                                                         
                                 </Row>                                
-                                <Button variant="primary" type="submit" disabled={isLoading}>
+                                <Row>
+                                    <Col>
+                                                <Button variant="primary" type="submit" disabled={isLoading}>
                                     {isLoading ? 'Updating...' : 'Update'}
                                 </Button>
                                 <Button variant="secondary" onClick={() => navigate('/profile')}>
@@ -336,6 +338,8 @@ export default function EditVenueFormListener () {
                                         Failed to update venue. Please try again later.
                                     </div>
                                 )}
+                                    </Col>
+                                </Row>
                             </Form>
                         </Card.Body>
                     </Card>
