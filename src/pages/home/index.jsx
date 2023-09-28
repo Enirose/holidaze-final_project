@@ -21,7 +21,6 @@ export default function HomePage () {
 
     return (
         <Container>
-            
             <Row className="justify-content-center mb-4 mt-4">
                 <Col xs="auto">
                     <Form.Control

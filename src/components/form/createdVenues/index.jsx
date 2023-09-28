@@ -56,7 +56,7 @@ export default function VenuesDisplay () {
                         <ListGroup.Item key={venue.id}>
                             <Card>
                                 <Row>
-                                    <Col md={4}>
+                                    <Col md={4} className="d-flex justify-content-center align-items-center">
                                     <Link to={`/venue/${venue.id}`}>
                                         {venue.media && venue.media.length > 0 ? (
                                         <Image
