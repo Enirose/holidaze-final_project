@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Card, Container, ListGroup, Image, Button } from "react-bootstrap";
+import { Card, Container, ListGroup, Image, Button, Row, Col } from "react-bootstrap";
 import { profileUrl } from "../../constants/constantsUrl";
 import useApi from "../../hooks/useApi";
 import { load } from "../../localStorage";
 import { Link } from "react-router-dom";
 import formatDate from "../../formatDate";
 import VenueWithBookingInfo from "../venueBookingsInfo";
+import { DeleteVenue } from "../../../posts/deleteVenue";
 
 export default function VenuesDisplay () {
     const userData = load('user');
     const {name} = userData;
     const userVenuesUrl = `${name}?_venues=true&_owner=true&_media`;
-
     const {data, isLoading, isError} = useApi (`${profileUrl}${userVenuesUrl}`);
 
 
@@ -27,6 +27,24 @@ export default function VenuesDisplay () {
         </div>
     }
 
+    // Function to handle deleting a venue
+    const handleDeleteVenue = async (venueId) => {
+        if (window.confirm("Are you sure you want to delete this venue?")) {
+
+        try {
+            const response = await DeleteVenue(venueId);
+
+            if (response.ok) {
+                location.reload();
+            } else {
+            console.error('Failed to delete the venue');
+            }
+        } catch (error) {
+            console.error('Error deleting the venue', error);
+        }
+        }
+    };
+
     const venues = data?.venues || [];
 
     return (
@@ -35,45 +53,45 @@ export default function VenuesDisplay () {
             {venues.length > 0 ? (
                 <ListGroup>
                     {venues.map((venue) => (
-                        <ListGroup.Item key = {venue.id}>
-                            <Link to={`/venue/${venue.id}`}>
-                                <Card>
-                                    <Card.Body>
-                                        <Card.Title>{venue.name}</Card.Title>
-                                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                                            {venue.media && venue.media.length > 0 ? ( //Display the media and if it's an array, just display 1
-                                                <Image src={venue.media[0]} alt={`Your next distination: ${venue.id}`} style={{ maxWidth: '50%', maxHeight: '100%' }} />
-                                                ) : (
-                                                <Image src="" alt="Placeholder Image" />
-                                            )}
-                                        </div>
-                    
-                                        <Card.Text>
+                        <ListGroup.Item key={venue.id}>
+                            <Card>
+                                <Row>
+                                    <Col md={4}>
+                                    <Link to={`/venue/${venue.id}`}>
+                                        {venue.media && venue.media.length > 0 ? (
+                                        <Image
+                                            src={venue.media[0]}
+                                            alt={`Your next destination: ${venue.id}`}
+                                            style={{ maxWidth: '100%', maxHeight: '100%' }}
+                                        />
+                                        ) : (
+                                        <Image src="" alt="Placeholder Image" />
+                                        )}
+                                    </Link>
+                                    </Col>
+                                    <Col md={4}>
+                                        <Card.Body>
+                                            <Card.Title>{venue.name}</Card.Title>
+                                            <Card.Text>
                                             Guests: {venue.maxGuests}
-                                        </Card.Text>
-                                        <Card.Text>
+                                            </Card.Text>
+                                            <Card.Text>
                                             Created: {formatDate(venue.created)}
-                                        </Card.Text>
-                                        <Card.Text>
-                                            Updated:{formatDate(venue.updated)}
-                                        </Card.Text>
-                                        {/* {venueBookings[venue.id] && Array.isArray(venueBookings[venue.id]) && (
-                                            <div>
-                                                <h4>Bookings:</h4>
-                                                <ul>
-                                                {venueBookings[venue.id].map((booking) => (
-                                                    <li key={booking.id}>
-                                                    Date: {formatDate(booking.date)}, Guests: {booking.maxGuests}, Customer: {booking.customer}
-                                                    </li>
-                                                ))}
-                                                </ul>
-                                            </div>
-                                        )} */}
-                                        <VenueWithBookingInfo venueId={venue.id} />
-                                    </Card.Body>
-                                </Card>
-                            </Link>
-                            <Button href={`/profile/edit/${venue.id}`} >Update Venue</Button>
+                                            </Card.Text>
+                                            <Card.Text>
+                                            Updated: {formatDate(venue.updated)}
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Col>
+                                    <Col md={4}>
+                                        <Card.Body className="" >                                         
+                                            <Button href={`/profile/edit/${venue.id}`} >Update Venue</Button>
+                                            <Button variant="danger" onClick={() => handleDeleteVenue(venue.id)}>Delete Venue</Button>
+                                            <VenueWithBookingInfo venueId={venue.id} />
+                                        </Card.Body>
+                                    </Col>
+                                </Row>
+                            </Card>
                         </ListGroup.Item>
                     ))}
                 </ListGroup>

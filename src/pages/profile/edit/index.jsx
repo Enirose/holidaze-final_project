@@ -137,7 +137,7 @@ export default function EditVenueFormListener () {
                 <Col>
                     <Card className="m-5">
                         <Card.Body>
-                            <h1>edit</h1>
+                            <h1>Update venue!</h1>
                             <Form onSubmit={handleSubmit(onSubmit)}>
                                 <Form.Group controlId="formTitle">
                                     <Form.Label>Title</Form.Label>
@@ -189,12 +189,11 @@ export default function EditVenueFormListener () {
                                         <h5>Uploaded Media:</h5>
                                         <div className="d-flex justify-content">
                                             {mediaUrls.map((url, index) => (
-                                                <div key={index}>
+                                                <div key={index} className="m-2">
                                                     <img
                                                         src={url}
                                                         alt={`Media ${index + 1}`}
-                                                        className="mr-2"
-                                                        style={{ maxWidth: '100px', maxHeight: '100px' }} // Adjust image size as needed
+                                                        style={{ maxWidth: '100px', maxHeight: '50px' }}
                                                     />
                                                     <Button
                                                         variant="danger"

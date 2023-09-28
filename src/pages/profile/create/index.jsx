@@ -141,11 +141,17 @@ export default function CreateVenueFormListener() {
                                 {mediaUrls.length > 0 && (
                                     <div className="mb-3">
                                         <h5>Uploaded Media:</h5>
-                                        <ul>
+                                        <div className="d-flex">
                                             {mediaUrls.map((url, index) => (
-                                                <div key={index}>{url}</div>
+                                                <div key={index} className='m-2'>
+                                                    <img
+                                                        src={url}
+                                                        alt={`Media ${index + 1}`}
+                                                        style={{ maxWidth: '100px', maxHeight: '50px' }}
+                                                    />
+                                                </div>
                                             ))}
-                                        </ul>
+                                        </div>
                                     </div>
                                 )}
                                 <Row>
