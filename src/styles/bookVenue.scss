@@ -3,6 +3,7 @@
 .date-picker {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .date-picker-input {

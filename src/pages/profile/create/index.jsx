@@ -89,7 +89,7 @@ export default function CreateVenueFormListener() {
         <Container>
             <Row>
                 <Col>
-                    <Card>
+                    <Card className='m-4 mb-5'>
                         <Card.Body>
                             <h1> Create your venue</h1>
                             <Form onSubmit={handleSubmit(onSubmit)}>

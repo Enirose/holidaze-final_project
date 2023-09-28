@@ -135,7 +135,7 @@ export default function EditVenueFormListener () {
         <Container>
             <Row>
                 <Col>
-                    <Card className="m-5">
+                    <Card className="m-4 mb-5">
                         <Card.Body>
                             <h1>Update venue!</h1>
                             <Form onSubmit={handleSubmit(onSubmit)}>

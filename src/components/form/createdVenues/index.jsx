@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Card, Container, ListGroup, Image, Button, Row, Col } from "react-bootstrap";
 import { profileUrl } from "../../constants/constantsUrl";
 import useApi from "../../hooks/useApi";
@@ -13,7 +13,6 @@ export default function VenuesDisplay () {
     const {name} = userData;
     const userVenuesUrl = `${name}?_venues=true&_owner=true&_media`;
     const {data, isLoading, isError} = useApi (`${profileUrl}${userVenuesUrl}`);
-
 
     if (isLoading) {
         return <div>
@@ -51,7 +50,7 @@ export default function VenuesDisplay () {
         <Container>
             <h2>Your Venues</h2>
             {venues.length > 0 ? (
-                <ListGroup>
+                <div>
                     {venues.map((venue) => (
                         <ListGroup.Item key={venue.id}>
                             <Card>
@@ -71,9 +70,9 @@ export default function VenuesDisplay () {
                                     </Col>
                                     <Col md={4}>
                                         <Card.Body>
-                                            <Card.Title>{venue.name}</Card.Title>
+                                            <h1>{venue.name}</h1>
                                             <Card.Text>
-                                            Guests: {venue.maxGuests}
+                                            Guests allowed: {venue.maxGuests} pax
                                             </Card.Text>
                                             <Card.Text>
                                             Created: {formatDate(venue.created)}
@@ -81,20 +80,20 @@ export default function VenuesDisplay () {
                                             <Card.Text>
                                             Updated: {formatDate(venue.updated)}
                                             </Card.Text>
+                                            <VenueWithBookingInfo venueId={venue.id} />
                                         </Card.Body>
                                     </Col>
                                     <Col md={4}>
                                         <Card.Body className="" >                                         
                                             <Button href={`/profile/edit/${venue.id}`} >Update Venue</Button>
-                                            <Button variant="danger" onClick={() => handleDeleteVenue(venue.id)}>Delete Venue</Button>
-                                            <VenueWithBookingInfo venueId={venue.id} />
+                                            <Button variant="danger" onClick={() => handleDeleteVenue(venue.id)}>Delete Venue</Button>    
                                         </Card.Body>
                                     </Col>
                                 </Row>
                             </Card>
                         </ListGroup.Item>
                     ))}
-                </ListGroup>
+                </div>
             ) : (
                 <div>No venues found. </div>
             )}

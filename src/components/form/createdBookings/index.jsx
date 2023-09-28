@@ -1,7 +1,5 @@
-
-// BookingsDisplay.js
 import React from 'react';
-import { Container, ListGroup, Card, Image, Button } from 'react-bootstrap';
+import { Container, ListGroup, Card, Image, Button, Row, Col } from 'react-bootstrap';
 import { profileUrl } from '../../constants/constantsUrl';
 import { load } from '../../localStorage';
 import useApi from '../../hooks/useApi';
@@ -40,62 +38,61 @@ export default function BookingsDisplay() {
         }
         }
     };
-
-
  
   const bookings = data?.bookings || [];
  
   return (
-    <Container>
-      <h2>Your Bookings</h2>
-      {bookings.length > 0 ? (
-        <ListGroup>
-          {bookings.map((booking) => (
-            <ListGroup.Item key={booking.id}>
-              <Link to={`/venue/${booking.venue.id}`} key={booking.id}>
-                <Card>
-                  <Card.Body>
-                    <h1> {booking.venue.name}</h1>
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                      {booking.venue.media && booking.venue.media.length > 0 ? (
-                        <Image
-                          src={booking.venue.media[0]}
-                          alt={`Image for booking ID: ${booking.id}`}
-                          style={{ maxWidth: '50%', maxHeight: '100%', width: 'auto', height: 'auto' }}
-                        />
-                      ) : (
-                        <Image
-                          src="placeholder-image-url.jpg"
-                          alt="Placeholder Image"
-                          style={{ maxWidth: '50%', maxHeight: '50%', width: 'auto', height: 'auto' }}
-                        />
-                      )}
-                    </div>
-                    <Card.Text>
-                      Owner: {booking.venue.owner}
-                    </Card.Text>
-                    <Card.Text>
-                      From: {formatDate (booking.dateFrom)}
-                    </Card.Text>
-                    <Card.Text>
-                      To: {formatDate(booking.dateTo)}
-                    </Card.Text>
-                    <Card.Text>
-                      Guests: {booking.guests}
-                    </Card.Text>
-                    <Card.Text>
-                      Total: NOK {booking.venue.price}
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Link>
-              <Button variant="danger" onClick={() => handleDeleteBooking(booking.id)}>Delete Booking</Button>
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
-      ) : (
-        <div>No bookings found!</div>
-      )}
-    </Container>
-  );
+        <Container>
+            <h2>Your Bookings</h2>
+            {bookings.length > 0 ? (
+                <div>
+                    {bookings.map((booking) => (
+                        <ListGroup.Item key={booking.id}>
+                            <Card>
+                                <Row>
+                                    <Col md={4} className="d-flex justify-content-center align-items-center">
+                                    <Link to={`/venue/${booking.venue.id}`}>
+                                        {booking.venue.media && booking.venue.media.length > 0 ? (
+                                        <Image
+                                            src={booking.venue.media[0]}
+                                            alt={`Your next destination: ${booking.venue.id}`}
+                                            style={{ maxWidth: '100%', maxHeight: '100%' }}
+                                        />
+                                        ) : (
+                                        <Image src="" alt={booking.venue.name} />
+                                        )}
+                                    </Link>
+                                    </Col>
+                                    <Col md={5}>
+                                        <Card.Body>
+                                            <h1>{booking.venue.name}</h1>
+                                            <Card.Text>
+                                              From: {formatDate (booking.dateFrom)}
+                                            </Card.Text>
+                                            <Card.Text>
+                                              To: {formatDate(booking.dateTo)}
+                                            </Card.Text>
+                                            <Card.Text>
+                                              Guests: {booking.guests}
+                                            </Card.Text>
+                                            <Card.Text>
+                                              <b>Total: NOK {booking.venue.price} </b>
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Col>
+                                    <Col md={3}>
+                                        <Card.Body className="" >   
+                                          <Button variant="danger" onClick={() => handleDeleteBooking(booking.id)}>Delete Booking</Button>                                      
+                                        </Card.Body>
+                                    </Col>
+                                </Row>
+                            </Card>
+                        </ListGroup.Item>
+                    ))}
+                </div>
+            ) : (
+                <div>No venues found. </div>
+            )}
+        </Container>
+    );
 }

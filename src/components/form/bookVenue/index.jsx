@@ -1,11 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col, Row, Form, Button } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
 import { useNavigate, useParams } from "react-router-dom";
 import { CreateBooking } from "../../../posts/create/createBooking";
-
-
 
 export default function BookDateByCalendar ({maxGuests, price}) {
   const [checkInDate, setCheckInDate] = useState(null);
@@ -45,25 +43,45 @@ export default function BookDateByCalendar ({maxGuests, price}) {
 
 
 
-    const calculateTotalAmount = () => {
-        if (checkInDate && checkOutDate) {
-        // Validate that check-out date is after check-in date
-            if (checkOutDate > checkInDate) {
-                // Calculate the number of days between check-in and check-out dates
-                const timeDifference = checkOutDate - checkInDate;
-                const numberOfDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+    // const calculateTotalAmount = () => {
+    //     if (checkInDate && checkOutDate) {
+    //     // Validate that check-out date is after check-in date
+    //         if (checkOutDate > checkInDate) {
+    //             // Calculate the number of days between check-in and check-out dates
+    //             const timeDifference = checkOutDate - checkInDate;
+    //             const numberOfDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
 
-                // Calculate the total amount based on the price per night
-                const totalPrice = numberOfDays * price * guests;
-                setTotalAmount(totalPrice);
+    //             // Calculate the total amount based on the price per night
+    //             const totalPrice = numberOfDays * price * guests;
+    //             setTotalAmount(totalPrice);
 
-                // Update total guests
-                setTotalGuests(guests);
-            } else {
-                setError("Check-out date must be after check-in date.");
-            }
-        }
-    };
+    //             // Update total guests
+    //             setTotalGuests(guests);
+    //         } else {
+    //             setError("Check-out date must be after check-in date.");
+    //         }
+    //     }
+    // };
+    useEffect(() => {
+    // Calculate total amount whenever check-in, check-out dates, or guests change
+    if (checkInDate && checkOutDate) {
+      // Validate that check-out date is after check-in date
+      if (checkOutDate > checkInDate) {
+        // Calculate the number of days between check-in and check-out dates
+        const timeDifference = checkOutDate - checkInDate;
+        const numberOfDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+        // Calculate the total amount based on the price per night
+        const totalPrice = numberOfDays * price * guests;
+        setTotalAmount(totalPrice);
+
+        // Update total guests
+        setTotalGuests(guests);
+      } else {
+        setError("Check-out date must be after check-in date.");
+      }
+    }
+  }, [checkInDate, checkOutDate, guests, price])
 
 
     const reserveVenue = async () => {
@@ -140,10 +158,10 @@ export default function BookDateByCalendar ({maxGuests, price}) {
                         />
                         {error && <div className="text-danger">{error}</div>}
                     </Form.Group>
-                    <Button variant="primary" onClick={calculateTotalAmount}>
+                    {/* <Button variant="primary" onClick={calculateTotalAmount}>
                         Calculate Total
-                    </Button>
-                    <Button className="m-3" variant="primary" onClick={reserveVenue}>
+                    </Button> */}
+                    <Button className="mt-3" variant="primary" onClick={reserveVenue}>
                         Reserve
                     </Button>
                     {totalAmount > 0 && (

@@ -30,7 +30,6 @@ export default function SpecificVenue() {
     meta,
     owner,
     bookings,
-    customer,
   } = data;
 
   // Check if owner exists and contains a name property
@@ -85,6 +84,7 @@ export default function SpecificVenue() {
                 className="mb-4 d-block h-10"
               />
             )}
+            <div className="m-3">
             <Tabs
               defaultActiveKey="description"
               id="justify-tab-example"
@@ -96,8 +96,9 @@ export default function SpecificVenue() {
                 <div>{description}</div>
               </Tab>
               <Tab eventKey="information" title="Information">
-                <h5>Location: {locationCity},  {locationCountry}</h5>
-                <div>Address: {locationAddress}</div>
+                <h3>Location: {locationCity},  {locationCountry}</h3>
+                <h5>Address: {locationAddress}</h5>
+                <h4>Owner: {ownerName}</h4>
                 <div>Price per Night: Nok {price} </div>
                 <div>Max Guests: {maxGuests}</div>
                 <div>{parkingIncluded}</div>
@@ -105,9 +106,10 @@ export default function SpecificVenue() {
                 <div>{breakfastIncluded}</div>
               </Tab>
             </Tabs>
+            </div>
           </Card>
         </Col>
-        <Col className="m-4">
+        <Col lg={5} className="mt-4">
           <BookDateByCalendar maxGuests={maxGuests} price={price}/>
             <div>
                 {isOwner ? ( bookings && bookings.length > 0 ? (

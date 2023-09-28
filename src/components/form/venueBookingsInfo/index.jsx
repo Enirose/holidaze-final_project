@@ -29,21 +29,21 @@ export default function VenueWithBookingInfo({venueId}) {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <ListGroup>
+        <div>
           <ListGroup.Item>
             <div>
               <ul>
                 {bookings.map((booking, index) => (
                   <li key={index}>
-                    From: {new Date(booking.dateFrom).toLocaleDateString()} -
-                    To: {new Date(booking.dateTo).toLocaleDateString()} |
-                    Guests: {booking.guests}
+                    <b>From: </b>{new Date(booking.dateFrom).toLocaleDateString()} -
+                    <b>To: </b>{new Date(booking.dateTo).toLocaleDateString()} §
+                    <b>Guests: {booking.guests} </b>
                   </li>
                 ))}
               </ul>
             </div>
           </ListGroup.Item>
-        </ListGroup>
+        </div>
       </Dropdown.Menu>
     </Dropdown>
   );

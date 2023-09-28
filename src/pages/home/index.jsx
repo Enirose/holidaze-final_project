@@ -32,7 +32,7 @@ export default function HomePage () {
                 </Col>
             </Row>
 
-            <Row className="row-cols-1 row-cols-md-3 g-4">
+            <Row className="row-cols-1 row-cols-md-3 g-5">
                 {venues
                 .filter((venue) => {
                     if (search === '') {
@@ -46,7 +46,7 @@ export default function HomePage () {
                     }
                 })
                 .map((venue) => (
-                    <Col key={venue.id} md={3} className="mb-4">
+                    <Col key={venue.id} md={4} >
                         <Link to={`/venue/${venue.id}`} className="text-decoration-none">
                             <Card className="h-100">
                                 <Card.Img variant="top" src={venue.media.length > 0 ? venue.media[0] : emptyImageUrl } alt={venue.name} className="mb-4 d-block" />
