@@ -33,9 +33,7 @@ export default function LoginListener({ onLogin }) {
               <div className='d-flex flex-row mt-2'>
                 <h1 className="h1 fw-bold mb-0">Ho<b><font color='lightblue'>lidaze</font></b></h1>
               </div>
-
               <h5 className="fw-normal my-4 pb-3" style={{ letterSpacing: '1px' }}>Sign into your Holidaze account</h5>
-
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group controlId="formBasicEmail" className="mb-4">
                   <Form.Label>Email address</Form.Label>

@@ -33,19 +33,17 @@ export default function RegisterListener() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    const venueManager = data.venueManager || false; // Set to false if checkbox is not checked
-     console.log('Data being sent to the server:', data);// RegisterUser(data)
+    const venueManager = data.venueManager || false;
+    console.log('Data being sent to the server:', data);
     try {
-      const result = await RegisterUser({...data, venueManager });
+      const result = await RegisterUser({ ...data, venueManager });
       console.log('Response from server:', result);
       setIsLoading(false);
 
       if (result.success) {
-        // Registration successful, you can handle this as needed
-        // For example, show a success message or redirect the user
         navigate('/login');
       } else {
         setIsLoading(false);
@@ -59,12 +57,22 @@ export default function RegisterListener() {
   };
 
   return (
-    <Container>
+    <Container className="my-5">
+      <Card>
       <Row>
-        <Col>
-          <Card>
-            <Card.Body>
-              <h2>Registration</h2>
+        <Col md="6">
+            <Card.Img
+              src="https://www.privateproperties.com.au/wp-content/uploads/2021/08/45-SERENE-SHORES-PP-17-41-1600x900.jpg"
+              alt="register form"
+              className="rounded-start w-100"
+            />
+        </Col>
+          <Col md='5'className='d-flex justify-content-center align-items-center '>
+            <Card.Body className='d-flex flex-column'>
+              <div className='d-flex flex-row mt-2'>
+                <h1 className="h1 fw-bold mb-0">Ho<b><font color='sky blue'>lidaze</font></b></h1>
+              </div>
+              <h5 className="fw-normal my-4 pb-3" style={{ letterSpacing: '1px' }}>Register your account and book your next <b>Ho<font color='sky blue'>lidaze</font></b> destination</h5>
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group controlId="formBasicFullName">
                   <Form.Label>Full Name</Form.Label>
@@ -74,7 +82,7 @@ export default function RegisterListener() {
                     {...register('name')}
                   />
                   <Form.Text className="text-danger">
-                    {errors.fullName?.message}
+                    {errors.name?.message}
                   </Form.Text>
                 </Form.Group>
 
@@ -113,20 +121,22 @@ export default function RegisterListener() {
                     {errors.avatar?.message}
                   </Form.Text>
                 </Form.Group>
-                <Form.Group controlId="formBasicVenueManager">
-                    <Form.Check
-                        type="checkbox"
-                        label="I am a venue manager"
-                        {...register('venueManager')}
-                    />
-                    <Form.Text className="text-danger">
-                        {errors.venueManager?.message}
-                    </Form.Text>
-                </Form.Group>
 
+                <Form.Group controlId="formBasicVenueManager">
+                  <Form.Check
+                    type="checkbox"
+                    label="I am a venue manager"
+                    {...register('venueManager')}
+                  />
+                  <Form.Text className="text-danger">
+                    {errors.venueManager?.message}
+                  </Form.Text>
+                </Form.Group>
+                <p className="pb-lg-2" style={{ color: '#393f81' }}>Already have an account? <a href="/login" style={{ color: '#f12a2a' }}><b>Login here</b></a></p>
                 <Button variant="primary" type="submit" disabled={isLoading}>
                   {isLoading ? 'Registering...' : 'Register'}
                 </Button>
+
                 {isError && (
                   <div className="mt-2 text-danger">
                     Registration failed. Please try again later.
@@ -134,9 +144,9 @@ export default function RegisterListener() {
                 )}
               </Form>
             </Card.Body>
-          </Card>
         </Col>
       </Row>
+      </Card>
     </Container>
   );
 }
