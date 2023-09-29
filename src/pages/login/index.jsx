@@ -43,7 +43,6 @@ export default function LoginPage() {
 
     return (
         <div>
-            <h1>Welcome to Holidaze</h1>
             {loginResult && (
                 <Alert variant={loginResult.success ? "success" : "danger"}>
                 {loginResult.message}

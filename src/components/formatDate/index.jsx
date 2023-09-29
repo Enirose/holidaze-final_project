@@ -1,4 +1,3 @@
-// Function to format a date in a user-friendly format
     const formatDate = (dateString) => {
         const options = 
         { 

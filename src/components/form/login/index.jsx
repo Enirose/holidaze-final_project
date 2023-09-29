@@ -1,74 +1,75 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-
 const emailRegex = /^[\w\-.]+@stud.noroff.no$/;
-const Schema = yup.object ({
-    email: yup.string().matches(emailRegex, 'Enter valid email address').required(),
-    password: yup.string()
-        .min(8,'Password must be min. 8 character')
-        .max(20, 'Make sure your password has 25 characters or less')
-        .required('Enter a password'),
+const Schema = yup.object({
+  email: yup.string().matches(emailRegex, 'Enter a valid email address').required(),
+  password: yup.string()
+    .min(8, 'Password must be at least 8 characters')
+    .max(20, 'Password must be 20 characters or less')
+    .required('Enter a password'),
 });
 
-/**
- * Components for login Form
- * @returns 
- */
+export default function LoginListener({ onLogin }) {
+  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(Schema) });
 
-export default function LoginListener({onLogin}) {
-    const {register, handleSubmit, formState: {errors}, } = useForm ({resolver: yupResolver (Schema)});
+  const onSubmit = async (data) => {
+    onLogin(data);
+  }
 
+  return (
+    <Container className="my-5">
+      <Card>
+        <Row className='g-0'>
+          <Col md='5'>
+            <Card.Img src='https://gretastravels.com/wp-content/uploads/2022/08/DSC_0134.jpg.webp' alt="login form" className='rounded-start w-100' />
+          </Col>
 
-    const onSubmit = async (data) => {
-        onLogin(data);
-    }
+          <Col md='5'className='d-flex justify-content-center align-items-center '>
+            <Card.Body className='d-flex flex-column'>
+              <div className='d-flex flex-row mt-2'>
+                <h1 className="h1 fw-bold mb-0">Ho<b><font color='lightblue'>lidaze</font></b></h1>
+              </div>
 
-    return (
-        <Container>
-            <Row>
-                <Col>
-                    <Card>
-                        <Card.Body>
-                            <h2>Login</h2>
-                            <Form onSubmit={handleSubmit(onSubmit)}>
-                                <Form.Group controlId="formBasicEmail">
-                                    <Form.Label>Email</Form.Label>
-                                    <Form.Control
-                                        type="email"
-                                        placeholder="Enter email"
-                                        {...register('email')}
-                                    />
-                                    <Form.Text className="text-danger">
-                                        {errors.email?.message}
-                                    </Form.Text>
-                                </Form.Group>
+              <h5 className="fw-normal my-4 pb-3" style={{ letterSpacing: '1px' }}>Sign into your Holidaze account</h5>
 
-                                <Form.Group controlId="formBasicPassword">
-                                    <Form.Label>Password</Form.Label>
-                                    <Form.Control
-                                        type="password"
-                                        placeholder="Password"
-                                        {...register('password')}
-                                    />
-                                    <Form.Text className="text-danger">
-                                        {errors.password?.message}
-                                    </Form.Text>
-                                </Form.Group>
+              <Form onSubmit={handleSubmit(onSubmit)}>
+                <Form.Group controlId="formBasicEmail" className="mb-4">
+                  <Form.Label>Email address</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter email"
+                    {...register('email')}
+                  />
+                  <Form.Text className="text-danger">
+                    {errors.email?.message}
+                  </Form.Text>
+                </Form.Group>
 
-                                <Button variant="primary" type="submit">
-                                    Login
-                                </Button>
-                            </Form>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
-        </Container>
-    );
+                <Form.Group controlId="formBasicPassword" className="mb-4">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    {...register('password')}
+                  />
+                  <Form.Text className="text-danger">
+                    {errors.password?.message}
+                  </Form.Text>
+                </Form.Group>
 
-
+                <Button variant="primary" type="submit" size='m' className="mb-4 px-5">
+                  Login
+                </Button>
+              </Form>
+              <p className="mb-5 pb-lg-2" style={{ color: '#393f81' }}>Don't have an account? <a href="/register" style={{ color: '#f12a2a' }}><b>Register here</b></a></p>
+            </Card.Body>
+          </Col>
+        </Row>
+      </Card>
+    </Container>
+  );
 }
