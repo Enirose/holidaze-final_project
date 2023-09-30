@@ -3,6 +3,7 @@ import useApi from "../../components/hooks/useApi";
 import { venuesUrl } from "../../components/constants/constantsUrl";
 import { Form, Col, Row, Button, Card, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Loader from "../../components/loader";
 
 const emptyImageUrl = 'https://media.istockphoto.com/id/1128826884/vector/no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment.jpg?s=170667a&w=0&k=20&c=O9Y41QO7idN44o-VK5s7dBUqg-dhJZcyagMb8485BNU='
 
@@ -12,7 +13,7 @@ export default function HomePage () {
     const venues = data;
 
     if (isLoading) {
-        return <div>loader</div>;
+        return <Loader/>;
     }
 
     if (isError) {
