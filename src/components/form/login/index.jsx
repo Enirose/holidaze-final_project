@@ -24,8 +24,8 @@ export default function LoginListener({ onLogin }) {
     <Container className="my-5">
       <Card>
         <Row className='g-0'>
-          <Col md='5'>
-            <Card.Img src='https://gretastravels.com/wp-content/uploads/2022/08/DSC_0134.jpg.webp' alt="login form" className='rounded-start w-100' />
+          <Col md='6'>
+            <Card.Img src='https://familyoffduty.com/wp-content/uploads/2019/03/santorini-3.jpg' alt="login form" className='rounded-start w-100' />
           </Col>
 
           <Col md='5'className='d-flex justify-content-center align-items-center '>
@@ -33,7 +33,7 @@ export default function LoginListener({ onLogin }) {
               <div className='d-flex flex-row mt-2'>
                 <h1 className="h1 fw-bold mb-0">Ho<b><font color='lightblue'>lidaze</font></b></h1>
               </div>
-              <h5 className="fw-normal my-4 pb-3" style={{ letterSpacing: '1px' }}>Sign into your Holidaze account</h5>
+              <h5 className="fw-normal my-4 pb-3" style={{ letterSpacing: '1px' }}>Login to your Holidaze account</h5>
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group controlId="formBasicEmail" className="mb-4">
                   <Form.Label>Email address</Form.Label>

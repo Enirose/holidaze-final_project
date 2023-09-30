@@ -1,6 +1,22 @@
+$primary: #1a77a3;
+
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
 @import "../styles/bookVenue.scss";
 @import "../styles/profile.scss";
+@import "./nav.scss";
+
+:root {
+    --bs-success: #1a77a3;
+}
+
+
+.btn-primary{
+    --bs-btn-color: #ffffff;
+    --bs-btn-bg: #1a77a3;
+}
+
+
+
 
 .card-img-top {
     height: 15rem;

@@ -1,0 +1,14 @@
+
+.navbar-nav .nav-link.active {
+    color: $primary;
+    font-weight: 600;
+}
+
+a:hover {
+    color: #fff;;
+    background-color:#aebbc1;
+}
+
+.navbar-nav {
+    --bs-navbar-hover-color: #fff;
+}
