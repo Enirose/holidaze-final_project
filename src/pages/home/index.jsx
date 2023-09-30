@@ -4,7 +4,7 @@ import { venuesUrl } from "../../components/constants/constantsUrl";
 import { Form, Col, Row, Button, Card, Container, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Loader from "../../components/loader";
-import { FaMapLocation} from "react-icons/fa6";
+import { IoLocationSharp} from "react-icons/io5";
 
 const emptyImageUrl = 'https://media.istockphoto.com/id/1128826884/vector/no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment.jpg?s=170667a&w=0&k=20&c=O9Y41QO7idN44o-VK5s7dBUqg-dhJZcyagMb8485BNU='
 
@@ -56,7 +56,7 @@ export default function HomePage () {
                                 <Card.Img variant="top" src={venue.media.length > 0 ? venue.media[0] : emptyImageUrl } alt={venue.name} className="mb-4 d-block" />
                                 <Card.Body>
                                     <h1>{venue.name}</h1>
-                                    <Card.Text><FaMapLocation/> {venue.location.country}</Card.Text>
+                                    <Card.Text><IoLocationSharp/> {venue.location.country}</Card.Text>
                                     <div className="d-flex justify-content-between">
                                         <p>Manager: {venue.owner.name}</p>
                                         <Image

@@ -5,13 +5,14 @@
 }
 
 a:hover {
-    color: #fff;;
-    background-color:#aebbc1;
+    background-color: #f0f0f0;
+    text-decoration: underline;
+    font-weight: 600;
 }
 
-.navbar-nav {
-    --bs-navbar-hover-color: #fff;
-}
+// .navbar-nav {
+//     --bs-navbar-hover-color: $primary;
+// }
 
 .navbar-brand {
     font-size: 30px;

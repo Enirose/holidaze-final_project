@@ -54,7 +54,7 @@ export default function UserProfileListener() {
           <Card>
             <Card.Body>
               <div className="text-center">
-                <Card.Title>{user.name}</Card.Title>
+                <Card.Title>Hi  {user.name}</Card.Title>
                 <Card.Text>Email: {user.email}</Card.Text>
               </div>
               <Row>

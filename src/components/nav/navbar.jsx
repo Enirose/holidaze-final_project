@@ -44,7 +44,7 @@ import { NavLink } from 'react-router-dom';
 
   return (
     <div>
-      <Navbar expand="lg" className="bg-body-tertiary">
+      <Navbar expand="lg">
         <Container className='navContainer'>
           <Navbar.Brand href="/"><b>Ho<font color='#1a77a3'>lidaze</font></b></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />

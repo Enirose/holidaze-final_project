@@ -6,7 +6,8 @@ import { useParams } from "react-router-dom";
 import BookDateByCalendar from "../../components/form/bookVenue";
 import { load } from "../../components/localStorage";
 import {FaCar, FaDog, FaUtensils, FaWifi} from 'react-icons/fa'
-import {BsPeopleFill} from 'react-icons/bs'
+import {BsPeopleFill} from 'react-icons/bs';
+import {IoLocationSharp} from 'react-icons/io5'
 
 export default function SpecificVenue() {
   const { id } = useParams();
@@ -103,8 +104,9 @@ export default function SpecificVenue() {
                   {petsIncluded}
                   {breakfastIncluded}
                 </div>
-                <h3>Location: {locationCity},  {locationCountry}</h3>
-                <h5>Address: {locationAddress}</h5>
+                <h5><IoLocationSharp/>{locationCountry}</h5>
+                <p>City: {locationCity}</p>
+                <p>Address: {locationAddress}</p>
                 <div>
                   <h5>Manager: {ownerName}</h5>
                   <Image
