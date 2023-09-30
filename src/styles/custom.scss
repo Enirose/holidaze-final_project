@@ -19,7 +19,8 @@ $primary: #1a77a3;
 body, html {
     @import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
     font-family: 'Fira', sans-serif;
-    height: 100vh;
+    height: 100%;
+    margin-bottom: 200px
 }
 
 .card-img-top {
@@ -37,11 +38,11 @@ body, html {
     justify-content: center;
 }
 
-// .row {
-//     margin-bottom: 50px;
-// }
+.container {
+    padding-bottom: 30px;
+}
 
-// .footer {
-//     color: #1a77a3;
-//     text-align: center;
-// }
+.navContainer {
+    font-size: large;
+    padding-bottom: 0;
+}

@@ -127,27 +127,25 @@ export default function SpecificVenue() {
           <BookDateByCalendar maxGuests={maxGuests} price={price}/>
             <div>
                 {isOwner ? ( bookings && bookings.length > 0 ? (
-                  <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  <Dropdown className="mt-2">
+                    <Dropdown.Toggle id="dropdown-basic">
                       Bookings Information
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                      <ListGroup>
                         <ListGroup.Item>
                           <div>
                             <ul>
                               {bookings.map((booking, index) => (
                                 <li key={index}>
-                                  From: {new Date(booking.dateFrom).toLocaleDateString()} -
-                                  To: {new Date(booking.dateTo).toLocaleDateString()} |
-                                  Guests: {booking.guests}
+                                  <b>From: </b> {new Date(booking.dateFrom).toLocaleDateString()} -
+                                  <b>To: </b> {new Date(booking.dateTo).toLocaleDateString()} |
+                                  <BsPeopleFill/> {booking.guests}
                                 </li>
                               ))}
                             </ul>
                           </div>
                         </ListGroup.Item>
-                      </ListGroup>
                     </Dropdown.Menu>
                   </Dropdown>
                 ) : (

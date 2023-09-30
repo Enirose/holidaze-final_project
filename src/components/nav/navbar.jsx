@@ -45,7 +45,7 @@ import { NavLink } from 'react-router-dom';
   return (
     <div>
       <Navbar expand="lg" className="bg-body-tertiary">
-        <Container>
+        <Container className='navContainer'>
           <Navbar.Brand href="/"><b>Ho<font color='#1a77a3'>lidaze</font></b></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -78,7 +78,7 @@ import { NavLink } from 'react-router-dom';
               </NavDropdown>
             )}
           </Navbar.Collapse>
-        </Container>
+       </Container> 
       </Navbar>
     </div>
   );
