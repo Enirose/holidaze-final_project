@@ -43,7 +43,11 @@ export default function UserProfileListener() {
   return (
     <Container className="justify-content-md-center">
       <Row className="justify-content-center" mt={4}>
-        <Image src={user.avatar} roundedCircle className='avatar' alt="User Profile {user.name}"/>
+         {user.avatar ? (
+          <Image src={user.avatar} roundedCircle className='avatar' alt={`User Profile ${user.name}`} />
+        ) : (
+          <Image src="https://cdn-icons-png.flaticon.com/512/126/126486.png" roundedCircle className='avatar' alt={`Default Avatar`} />
+        )}
       </Row>
       <Row  className='d-flex justify-content-center'>
         <Col md={5}>
