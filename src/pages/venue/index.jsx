@@ -5,6 +5,8 @@ import { Card, Container, Row, Col, Carousel, Dropdown, ListGroup, Tabs, Tab } f
 import { useParams } from "react-router-dom";
 import BookDateByCalendar from "../../components/form/bookVenue";
 import { load } from "../../components/localStorage";
+import {FaCar, FaDog, FaUtensils, FaWifi} from 'react-icons/fa'
+import {BsPeopleFill} from 'react-icons/bs'
 
 export default function SpecificVenue() {
   const { id } = useParams();
@@ -41,12 +43,10 @@ export default function SpecificVenue() {
   const locationAddress = location && location.address ? location.address : '';
 
   // Check if meta object exists and extract properties
-  const parkingIncluded = meta && meta.parking ? "Parking: Yes" : "Parking: No";
-  const wifiIncluded = meta && meta.wifi ? "Wifi: Yes" : "Wifi: No";
-  const breakfastIncluded = meta && meta.breakfast
-    ? "Breakfast: Yes"
-    : "Breakfast: No";
-
+  const parkingIncluded = meta && meta.parking ? (<p><FaCar /> Parking</p>) : (<p className="text-decoration-line-through"><FaCar /> Parking </p>);
+  const breakfastIncluded =meta && meta.pets ?  (<p> <FaUtensils/> Breakfast</p>) : (<p className="text-decoration-line-through"> <FaUtensils /> Breakfast </p>);
+  const wifiIncluded =meta && meta.wifi ?  (<p> <FaWifi/> Wifi </p>) : (<p className="text-decoration-line-through"> <FaWifi /> Wifi </p>);
+  const petsIncluded =meta && meta.pets ?  (<p> <FaDog/> Pets</p>) : (<p className="text-decoration-line-through"> <FaDog /> Pets </p>);
 
   const isOwner = currentUser && currentUser.name === ownerName;
   const emptyImageUrl = 'https://media.istockphoto.com/id/1128826884/vector/no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment.jpg?s=170667a&w=0&k=20&c=O9Y41QO7idN44o-VK5s7dBUqg-dhJZcyagMb8485BNU='
@@ -96,14 +96,18 @@ export default function SpecificVenue() {
                 <div>{description}</div>
               </Tab>
               <Tab eventKey="information" title="Information">
+                <div className="d-flex justify-content-between">
+                  {parkingIncluded}
+                  {wifiIncluded}
+                  {petsIncluded}
+                  {breakfastIncluded}
+                </div>
                 <h3>Location: {locationCity},  {locationCountry}</h3>
                 <h5>Address: {locationAddress}</h5>
-                <h4>Owner: {ownerName}</h4>
-                <div>Price per Night: Nok {price} </div>
-                <div>Max Guests: {maxGuests}</div>
-                <div>{parkingIncluded}</div>
-                <div>{wifiIncluded}</div>
-                <div>{breakfastIncluded}</div>
+                <h5>Manager: {ownerName}</h5>
+                <h5>Price per Night: Nok {price} </h5>
+                <div> <BsPeopleFill/> {maxGuests}</div>
+                
               </Tab>
             </Tabs>
             </div>

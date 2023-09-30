@@ -7,6 +7,7 @@ $primary: #1a77a3;
 
 :root {
     --bs-success: #1a77a3;
+    height: 100vh;
 }
 
 
@@ -17,12 +18,9 @@ $primary: #1a77a3;
 
 body, html {
     @import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
-    font-family: 'Fira', sans-serif   
+    font-family: 'Fira', sans-serif;
+    height: 100vh;
 }
-
-
-
-
 
 .card-img-top {
     height: 15rem;
@@ -38,3 +36,12 @@ body, html {
     align-items: center;
     justify-content: center;
 }
+
+// .row {
+//     margin-bottom: 50px;
+// }
+
+// .footer {
+//     color: #1a77a3;
+//     text-align: center;
+// }
