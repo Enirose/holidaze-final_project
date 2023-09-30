@@ -22,10 +22,10 @@ export default function HomePage () {
     return (
         <Container>
             <Row className="justify-content-center mb-4 mt-4">
-                <Col xs="auto">
+                <Col>
                     <Form.Control
                     type="text"
-                    placeholder="Search.."
+                    placeholder="Search your next holidaze venue....."
                     className="mr-sm-2"
                     onChange={event => setSearch(event.target.value)}
                     />
