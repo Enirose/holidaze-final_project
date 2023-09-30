@@ -6,6 +6,7 @@ import useApi from '../../hooks/useApi';
 import { Link } from 'react-router-dom';
 import formatDate from '../../formatDate';
 import { DeleteBooking } from '../../../posts/deleteBooking';
+import Loader from '../../loader';
 
 export default function BookingsDisplay() {
   const userData = load('user');
@@ -14,7 +15,7 @@ export default function BookingsDisplay() {
   const { data, isLoading, isError } = useApi (`${profileUrl}${userBookingUrl}`);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader/>
   }
 
   if (isError) {

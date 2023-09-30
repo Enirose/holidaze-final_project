@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import formatDate from "../../formatDate";
 import VenueWithBookingInfo from "../venueBookingsInfo";
 import { DeleteVenue } from "../../../posts/deleteVenue";
+import Loader from "../../loader";
 
 export default function VenuesDisplay () {
     const userData = load('user');
@@ -15,9 +16,7 @@ export default function VenuesDisplay () {
     const {data, isLoading, isError} = useApi (`${profileUrl}${userVenuesUrl}`);
 
     if (isLoading) {
-        return <div>
-            Loading....
-        </div>
+        return <Loader/>
     } 
 
     if (isError) {
