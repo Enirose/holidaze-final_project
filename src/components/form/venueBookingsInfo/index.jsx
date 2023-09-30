@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import useApi from "../../hooks/useApi";
 import { venuesUrl } from "../../constants/constantsUrl";
 import { Dropdown, ListGroup } from "react-bootstrap";
+import { BsPeopleFill } from "react-icons/bs";
 
 export default function VenueWithBookingInfo({venueId}) {
   const ownerUrl = "?_bookings=true&owner=true";
@@ -36,8 +37,8 @@ export default function VenueWithBookingInfo({venueId}) {
                 {bookings.map((booking, index) => (
                   <li key={index}>
                     <b>From: </b>{new Date(booking.dateFrom).toLocaleDateString()} -
-                    <b>To: </b>{new Date(booking.dateTo).toLocaleDateString()} §
-                    <b>Guests: {booking.guests} </b>
+                    <b>To: </b>{new Date(booking.dateTo).toLocaleDateString()} | 
+                    <b><BsPeopleFill/> {booking.guests} pax</b>
                   </li>
                 ))}
               </ul>

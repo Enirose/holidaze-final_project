@@ -8,6 +8,7 @@ import formatDate from "../../formatDate";
 import VenueWithBookingInfo from "../venueBookingsInfo";
 import { DeleteVenue } from "../../../posts/deleteVenue";
 import Loader from "../../loader";
+import { BsPeopleFill } from "react-icons/bs";
 
 export default function VenuesDisplay () {
     const userData = load('user');
@@ -71,7 +72,7 @@ export default function VenuesDisplay () {
                                         <Card.Body>
                                             <h1>{venue.name}</h1>
                                             <Card.Text>
-                                            Guests allowed: {venue.maxGuests} pax
+                                            <BsPeopleFill/> {venue.maxGuests} pax
                                             </Card.Text>
                                             <Card.Text>
                                             Created: {formatDate(venue.created)}

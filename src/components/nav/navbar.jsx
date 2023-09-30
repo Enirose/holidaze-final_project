@@ -10,6 +10,8 @@ import { NavLink } from 'react-router-dom';
     name:'',
     avatar:''
   })
+  
+  const defaultAvatar = 'https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg';
 
   const isLoggedIn = !!load('token');
 
@@ -59,7 +61,7 @@ import { NavLink } from 'react-router-dom';
             {isLoggedIn && (
               <Nav.Item>
                 <Image
-                  src={user.avatar} 
+                  src={user.avatar || defaultAvatar } 
                   roundedCircle
                   width={50}
                   height={50}

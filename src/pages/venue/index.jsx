@@ -1,7 +1,7 @@
 import React from "react";
 import useApi from "../../components/hooks/useApi";
 import { venuesUrl } from "../../components/constants/constantsUrl";
-import { Card, Container, Row, Col, Carousel, Dropdown, ListGroup, Tabs, Tab } from "react-bootstrap";
+import { Card, Container, Row, Col, Carousel, Dropdown, ListGroup, Tabs, Tab, Image } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import BookDateByCalendar from "../../components/form/bookVenue";
 import { load } from "../../components/localStorage";
@@ -36,6 +36,7 @@ export default function SpecificVenue() {
 
   // Check if owner exists and contains a name property
   const ownerName = owner && owner.name ? owner.name : 'Owner information not available';
+  const ownerAvatar = owner && owner.avatar ? owner.avatar:'';
 
   // Check if location exists and contains the country and city property
   const locationCountry = location && location.country ? location.country : '';
@@ -104,7 +105,16 @@ export default function SpecificVenue() {
                 </div>
                 <h3>Location: {locationCity},  {locationCountry}</h3>
                 <h5>Address: {locationAddress}</h5>
-                <h5>Manager: {ownerName}</h5>
+                <div>
+                  <h5>Manager: {ownerName}</h5>
+                  <Image
+                    src={ownerAvatar}
+                    roundedCircle
+                    width={30}
+                    height={30}
+                    alt="Owner Image"
+                  />
+                </div>
                 <h5>Price per Night: Nok {price} </h5>
                 <div> <BsPeopleFill/> {maxGuests}</div>
                 
