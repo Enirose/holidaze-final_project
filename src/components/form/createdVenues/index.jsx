@@ -68,7 +68,7 @@ export default function VenuesDisplay () {
                                         )}
                                     </Link>
                                     </Col>
-                                    <Col md={4}>
+                                    <Col md={5}>
                                         <Card.Body>
                                             <h1>{venue.name}</h1>
                                             <Card.Text>
@@ -83,10 +83,10 @@ export default function VenuesDisplay () {
                                             <VenueWithBookingInfo venueId={venue.id} />
                                         </Card.Body>
                                     </Col>
-                                    <Col md={4}>
-                                        <Card.Body className="" >                                         
-                                            <Button href={`/profile/edit/${venue.id}`} >Update Venue</Button>
-                                            <Button variant="danger" onClick={() => handleDeleteVenue(venue.id)}>Delete Venue</Button>    
+                                    <Col md={3}>
+                                        <Card.Body>                                         
+                                            <Button className="mb-2 " href={`/profile/edit/${venue.id}`} >Update Venue</Button>
+                                            <Button className="mb-2" variant="danger" onClick={() => handleDeleteVenue(venue.id)}>Delete Venue</Button>    
                                         </Card.Body>
                                     </Col>
                                 </Row>

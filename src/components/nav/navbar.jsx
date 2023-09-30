@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import "../../styles/custom.scss";
 import { load, remove } from '../localStorage';
 import { FetchUserProfile } from '../../posts/getProfile';
+import { NavLink } from 'react-router-dom';
 
  export default function NavContainer() {
   const [user, setUser] = useState({
@@ -43,16 +44,15 @@ import { FetchUserProfile } from '../../posts/getProfile';
     <div>
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
-          <Navbar.Brand href="/">Ho<b><font color='orange'>lidaze</font></b></Navbar.Brand>
+          <Navbar.Brand href="/"><b>Ho<font color='#1a77a3'>lidaze</font></b></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/">Venues</Nav.Link>
+              <Nav.Link as={NavLink} to="/">Home</Nav.Link>
+              <Nav.Link as={NavLink} to="/">Venues</Nav.Link>
               {!isLoggedIn && (
                 <>
-                  <Nav.Link href="/login">Login</Nav.Link>
-                  <Nav.Link href="/register">Register</Nav.Link>
+                  <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
                 </>
               )}
             </Nav>

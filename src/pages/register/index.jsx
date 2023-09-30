@@ -16,9 +16,6 @@ export default function RegisterPage() {
           success: true,
           message: 'Registration successful. Redirecting to login...',
         });
-
-         // Redirect to the login page or any other page
-
       } else {
         setRegisterResult({
           success: false,

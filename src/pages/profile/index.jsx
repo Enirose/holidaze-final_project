@@ -11,6 +11,7 @@ export default function UserProfileListener() {
     name: '',
     email: '',
     avatar: '',
+    venueManager: false,
   });
   const [showModal, setShowModal] = useState(false);
 
@@ -60,9 +61,11 @@ export default function UserProfileListener() {
                     </Button>
                   </Col>
                   <Col className='d-flex justify-content-center'>
-                    <Button href="/profile/create" variant="primary">
-                      Create Venue
-                    </Button>
+                    {user.venueManager && ( // Check if user is a venue manager, display the button
+                      <Button href="/profile/create" variant="primary">
+                        Create Venue
+                      </Button>
+                    )}
                   </Col>
                 </div>
               </Row>
@@ -76,11 +79,14 @@ export default function UserProfileListener() {
             defaultActiveKey="Venue"
             id="justify-tab-example"
             className="mb-3"
+           
             justify
           >
-            <Tab eventKey="Venue" title="My Venue">
-              < VenuesDisplay />
-            </Tab>
+            {user.venueManager && ( // Check if user is a venue manager, display the button
+              <Tab eventKey="Venue" title="My Venue">
+                <VenuesDisplay />
+              </Tab>
+            )}
             <Tab eventKey="Booking" title="My Bookings">
               < BookingsDisplay />
             </Tab>

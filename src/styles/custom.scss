@@ -1,6 +1,22 @@
+$primary: #1a77a3;
+
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
 @import "../styles/bookVenue.scss";
 @import "../styles/profile.scss";
+@import "./nav.scss";
+
+:root {
+    --bs-success: #1a77a3;
+}
+
+
+.btn-primary{
+    --bs-btn-color: #ffffff;
+    --bs-btn-bg: #1a77a3;
+}
+
+
+
 
 .card-img-top {
     height: 15rem;
@@ -8,6 +24,12 @@
 }
 
 .card {
-    box-shadow: 10px 10px 7px rgb(174, 194, 183);
+    box-shadow: 0px 3px 15px rgb(0, 0, 0, 0.2);
     margin-bottom: 20px;
+}
+
+.loginForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
