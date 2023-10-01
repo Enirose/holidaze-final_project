@@ -77,14 +77,14 @@ export default function SpecificVenue() {
                 variant="top"
                 src={media[0]}
                 alt={name}
-                className="mb-4 d-block h-10"
+                className="mb-4 d-block h-100"
               />
             ) : (
               <Card.Img // placeholder or message when media is empty
                 variant="top"
                 src={emptyImageUrl}
                 alt={name}
-                className="mb-4 d-block h-10"
+                className="mb-4 d-block h-100"
               />
             )}
             <div className="m-3">
