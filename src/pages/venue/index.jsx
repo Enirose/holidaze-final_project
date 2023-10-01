@@ -40,9 +40,9 @@ export default function SpecificVenue() {
   const ownerAvatar = owner && owner.avatar ? owner.avatar:'';
 
   // Check if location exists and contains the country and city property
-  const locationCountry = location && location.country ? location.country : '';
-  const locationCity = location && location.city ? location.city : '';
-  const locationAddress = location && location.address ? location.address : '';
+  const locationCountry = location && location.country ? location.country : 'Undefined';
+  const locationCity = location && location.city ? location.city : 'Undefined';
+  const locationAddress = location && location.address ? location.address : 'Undefined';
 
   // Check if meta object exists and extract properties
   const parkingIncluded = meta && meta.parking ? (<p><FaCar /> Parking</p>) : (<p className="text-decoration-line-through"><FaCar /> Parking </p>);
@@ -52,6 +52,7 @@ export default function SpecificVenue() {
 
   const isOwner = currentUser && currentUser.name === ownerName;
   const emptyImageUrl = 'https://media.istockphoto.com/id/1128826884/vector/no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment.jpg?s=170667a&w=0&k=20&c=O9Y41QO7idN44o-VK5s7dBUqg-dhJZcyagMb8485BNU='
+  const defaultOwnerAvatar = 'https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg';
 
   return (
     <Container className="mb-4">
@@ -76,14 +77,14 @@ export default function SpecificVenue() {
                 variant="top"
                 src={media[0]}
                 alt={name}
-                className="mb-4 d-block h-10"
+                className="mb-4 d-block h-100"
               />
             ) : (
               <Card.Img // placeholder or message when media is empty
                 variant="top"
                 src={emptyImageUrl}
                 alt={name}
-                className="mb-4 d-block h-10"
+                className="mb-4 d-block h-100"
               />
             )}
             <div className="m-3">
@@ -110,7 +111,7 @@ export default function SpecificVenue() {
                 <div>
                   <h5>Manager: {ownerName}</h5>
                   <Image
-                    src={ownerAvatar}
+                    src={ownerAvatar || defaultOwnerAvatar}
                     roundedCircle
                     width={30}
                     height={30}

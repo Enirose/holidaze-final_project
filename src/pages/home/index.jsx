@@ -56,7 +56,7 @@ export default function HomePage () {
                                 <Card.Img variant="top" src={venue.media.length > 0 ? venue.media[0] : emptyImageUrl } alt={venue.name} className="mb-4 d-block" />
                                 <Card.Body>
                                     <h1>{venue.name}</h1>
-                                    <Card.Text><IoLocationSharp/> {venue.location.country}</Card.Text>
+                                    <Card.Text><IoLocationSharp/> {venue.location && venue.location.country ? venue.location.country : 'Undefined'}</Card.Text>
                                     <div className="d-flex justify-content-between">
                                         <p>Manager: {venue.owner.name}</p>
                                         <Image
