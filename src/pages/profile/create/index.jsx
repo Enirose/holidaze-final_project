@@ -6,7 +6,7 @@ import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CreateVenue } from '../../../posts/create/createVenue';
-import { RiDeleteBin5Fill } from 'react-icons/ri';
+import { RiCloseLine, RiDeleteBin5Fill } from 'react-icons/ri';
 
 
 const schema = yup.object().shape({
@@ -90,6 +90,9 @@ export default function CreateVenueFormListener() {
             <Row>
                 <Col>
                     <Card className='m-4 mb-5'>
+                        <div style={{ position: 'absolute', top: '10px', right: '10px', cursor: 'pointer' }}>
+                            <RiCloseLine onClick={() => navigate('/profile')} />
+                        </div>
                         <Card.Body>
                             <h1> Create your venue</h1>
                             <Form onSubmit={handleSubmit(onSubmit)}>
@@ -127,6 +130,7 @@ export default function CreateVenueFormListener() {
                                         <Button
                                             variant="primary"
                                             onClick={handleAddMedia}
+                                            className='mt-2'
                                         >
                                             Add Media
                                         </Button>
@@ -134,8 +138,7 @@ export default function CreateVenueFormListener() {
                                     <Form.Text className="text-danger">
                                         {errors.media?.message}
                                     </Form.Text>
-                                </Form.Group>
-                                
+                                </Form.Group> 
                                 {/* Display uploaded media URLs as an array */}
                                 {mediaUrls.length > 0 && (
                                     <div className="mb-3">
@@ -266,19 +269,13 @@ export default function CreateVenueFormListener() {
                                             </Card.Body>
                                         </Card>
                                     </Col> 
-                                    
-                                    
-                                </Row>
-
-                            
-                                {/* Add similar Form.Group elements for other fields */}
-                                
-                                <Button variant="primary" type="submit" disabled={isLoading}>
-                                    {isLoading ? 'Registering...' : 'Register'}
+                                </Row>                               
+                                <Button className='mt-2' variant="primary" type="submit" disabled={isLoading}>
+                                    {isLoading ? 'Creating...' : 'Create Venue'}
                                 </Button>
                                 {isError && (
                                     <div className="mt-2 text-danger">
-                                        Registration failed. Please try again later.
+                                        Creating venue failed. Please try again later.
                                     </div>
                                 )}
                             </Form>
