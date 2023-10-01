@@ -70,9 +70,9 @@ export default function RegisterListener() {
           <Col md='5'className='d-flex justify-content-center align-items-center '>
             <Card.Body className='d-flex flex-column'>
               <div className='d-flex flex-row mt-2'>
-                <h1 className="h1 fw-bold mb-0">Ho<b><font color='sky blue'>lidaze</font></b></h1>
+                <h1 className="h1Title fw-bold mb-0"><font color='#000000'>Ho</font><b><font color='#1a77a3'>lidaze</font></b></h1>
               </div>
-              <h5 className="fw-normal my-4 pb-3" style={{ letterSpacing: '1px' }}>Register your account and book your next <b>Ho<font color='sky blue'>lidaze</font></b> destination</h5>
+              <h5 className="fw-normal my-4 pb-3" style={{ letterSpacing: '1px' }}>Register your account and book your next <b>Ho<font color='#1a77a3'>lidaze</font></b> destination</h5>
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group controlId="formBasicFullName">
                   <Form.Label>Full Name</Form.Label>

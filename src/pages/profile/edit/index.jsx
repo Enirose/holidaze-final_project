@@ -8,7 +8,7 @@ import { Col, Container, Form, Row, Card, Button } from "react-bootstrap";
 import * as yup from 'yup';
 import { FetchSingleVenue } from "../../../posts/getSpecificVenueById";
 import { DeleteVenue } from "../../../posts/deleteVenue";
-import { RiDeleteBin5Fill } from 'react-icons/ri';
+import { RiCloseLine, RiDeleteBin5Fill } from 'react-icons/ri';
 
 
 const editSchema = yup.object().shape ({
@@ -136,6 +136,9 @@ export default function EditVenueFormListener () {
             <Row>
                 <Col>
                     <Card className="m-4 mb-5">
+                        <div style={{ position: 'absolute', top: '10px', right: '10px', cursor: 'pointer' }}>
+                            <RiCloseLine onClick={() => navigate('/profile')} />
+                        </div>
                         <Card.Body>
                             <h1>Update venue!</h1>
                             <Form onSubmit={handleSubmit(onSubmit)}>
@@ -175,6 +178,7 @@ export default function EditVenueFormListener () {
                                         <Button
                                             variant="primary"
                                             onClick={handleAddMedia}
+                                            className="mt-2"
                                         >
                                             Add Media
                                         </Button>
@@ -323,21 +327,18 @@ export default function EditVenueFormListener () {
                                     </Col>                                                                         
                                 </Row>                                
                                 <Row>
-                                    <Col>
-                                                <Button variant="primary" type="submit" disabled={isLoading}>
-                                    {isLoading ? 'Updating...' : 'Update'}
-                                </Button>
-                                <Button variant="secondary" onClick={() => navigate('/profile')}>
-                                Close
-                                </Button>
-                                <Button variant="danger" onClick={handleDelete}>
-                                  Delete
-                                </Button>
-                                {isError && (
-                                    <div className="mt-2 text-danger">
-                                        Failed to update venue. Please try again later.
-                                    </div>
-                                )}
+                                    <Col className="mt-2">
+                                        <Button variant="primary" type="submit" disabled={isLoading}>
+                                            {isLoading ? 'Updating...' : 'Update'}
+                                        </Button>
+                                        <Button variant="danger" onClick={handleDelete}>
+                                        Delete
+                                        </Button>
+                                        {isError && (
+                                            <div className="mt-2 text-danger">
+                                                Failed to update venue. Please try again later.
+                                            </div>
+                                        )}
                                     </Col>
                                 </Row>
                             </Form>

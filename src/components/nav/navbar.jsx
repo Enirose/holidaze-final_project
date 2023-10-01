@@ -10,6 +10,8 @@ import { NavLink } from 'react-router-dom';
     name:'',
     avatar:''
   })
+  
+  const defaultAvatar = 'https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg';
 
   const isLoggedIn = !!load('token');
 
@@ -42,8 +44,8 @@ import { NavLink } from 'react-router-dom';
 
   return (
     <div>
-      <Navbar expand="lg" className="bg-body-tertiary">
-        <Container>
+      <Navbar expand="lg">
+        <Container className='navContainer'>
           <Navbar.Brand href="/"><b>Ho<font color='#1a77a3'>lidaze</font></b></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -59,7 +61,7 @@ import { NavLink } from 'react-router-dom';
             {isLoggedIn && (
               <Nav.Item>
                 <Image
-                  src={user.avatar} 
+                  src={user.avatar || defaultAvatar } 
                   roundedCircle
                   width={50}
                   height={50}
@@ -76,7 +78,7 @@ import { NavLink } from 'react-router-dom';
               </NavDropdown>
             )}
           </Navbar.Collapse>
-        </Container>
+       </Container> 
       </Navbar>
     </div>
   );

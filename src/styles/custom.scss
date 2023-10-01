@@ -7,16 +7,22 @@ $primary: #1a77a3;
 
 :root {
     --bs-success: #1a77a3;
+    height: 100vh;
 }
 
 
 .btn-primary{
     --bs-btn-color: #ffffff;
     --bs-btn-bg: #1a77a3;
+    margin-right: 10px;
 }
 
-
-
+body, html {
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
+    font-family: 'Fira', sans-serif;
+    height: 100%;
+    margin-bottom: 200px
+}
 
 .card-img-top {
     height: 15rem;
@@ -24,12 +30,20 @@ $primary: #1a77a3;
 }
 
 .card {
-    box-shadow: 0px 3px 15px rgb(0, 0, 0, 0.2);
-    margin-bottom: 20px;
+    box-shadow: 0px 3px 15px rgba(163, 184, 206, 0.2);
 }
 
 .loginForm {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.container {
+    padding-bottom: 50px;
+}
+
+.navContainer {
+    font-size: large;
+    padding-bottom: 0;
 }

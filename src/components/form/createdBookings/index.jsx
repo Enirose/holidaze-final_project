@@ -6,6 +6,8 @@ import useApi from '../../hooks/useApi';
 import { Link } from 'react-router-dom';
 import formatDate from '../../formatDate';
 import { DeleteBooking } from '../../../posts/deleteBooking';
+import Loader from '../../loader';
+import { BsPeopleFill } from 'react-icons/bs';
 
 export default function BookingsDisplay() {
   const userData = load('user');
@@ -14,7 +16,7 @@ export default function BookingsDisplay() {
   const { data, isLoading, isError } = useApi (`${profileUrl}${userBookingUrl}`);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader/>
   }
 
   if (isError) {
@@ -73,7 +75,7 @@ export default function BookingsDisplay() {
                                               To: {formatDate(booking.dateTo)}
                                             </Card.Text>
                                             <Card.Text>
-                                              Guests: {booking.guests}
+                                              <BsPeopleFill/> {booking.guests}
                                             </Card.Text>
                                             <Card.Text>
                                               <b>Total: NOK {booking.venue.price} </b>
