@@ -40,9 +40,9 @@ export default function SpecificVenue() {
   const ownerAvatar = owner && owner.avatar ? owner.avatar:'';
 
   // Check if location exists and contains the country and city property
-  const locationCountry = location && location.country ? location.country : '';
-  const locationCity = location && location.city ? location.city : '';
-  const locationAddress = location && location.address ? location.address : '';
+  const locationCountry = location && location.country ? location.country : 'Undefined';
+  const locationCity = location && location.city ? location.city : 'Undefined';
+  const locationAddress = location && location.address ? location.address : 'Undefined';
 
   // Check if meta object exists and extract properties
   const parkingIncluded = meta && meta.parking ? (<p><FaCar /> Parking</p>) : (<p className="text-decoration-line-through"><FaCar /> Parking </p>);
