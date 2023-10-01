@@ -52,6 +52,7 @@ export default function SpecificVenue() {
 
   const isOwner = currentUser && currentUser.name === ownerName;
   const emptyImageUrl = 'https://media.istockphoto.com/id/1128826884/vector/no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment.jpg?s=170667a&w=0&k=20&c=O9Y41QO7idN44o-VK5s7dBUqg-dhJZcyagMb8485BNU='
+  const defaultOwnerAvatar = 'https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg';
 
   return (
     <Container className="mb-4">
@@ -110,7 +111,7 @@ export default function SpecificVenue() {
                 <div>
                   <h5>Manager: {ownerName}</h5>
                   <Image
-                    src={ownerAvatar}
+                    src={ownerAvatar || defaultOwnerAvatar}
                     roundedCircle
                     width={30}
                     height={30}
