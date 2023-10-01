@@ -28,13 +28,18 @@ Clone the project or download and extract the zip file in your editor
 -  [Sass](https://sass-lang.com/)
 
 ## Install Dependencies
+```ruby
 npm i
+```
 
 ## Run Locally
+```ruby
 npm run dev
+```
 
 ### Build Locally
+```ruby
 npm run build
-
+```
 ## Contact me
 [My LinkedIn Page](www.linkedin.com/in/maria-enirose-hellum-1b47bb1b5)
